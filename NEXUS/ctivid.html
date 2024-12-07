@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menú Interactivo</title>
+  <link rel="stylesheet" href="ctivi.css"> <!-- Enlace al archivo CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"> <!-- Font Awesome para iconos -->
+</head>
+<body>
+  <!-- Contenedor del Menú -->
+  <div class="menu-container" id="menu">
+    <!-- Opciones del Menú -->
+    <div class="menu-item" onclick="mostrarSeccion('simpleS')">
+      <i class="fas fa-tasks"></i> Actividad Simple
+    </div>
+    <div class="menu-item" onclick="mostrarSeccion('quiz')">
+      <i class="fas fa-question-circle"></i> Quiz
+    </div>
+    <div class="menu-item" onclick="mostrarSeccion('taller')">
+      <i class="fas fa-chalkboard-teacher"></i> Taller
+    </div>
+    <div class="menu-item" onclick="mostrarSeccion('parcial')">
+      <i class="fas fa-calendar-check"></i> Parcial
+    </div>
+    <div class="menu-item" onclick="mostrarSeccion('personalizado')">
+      <i class="fas fa-cogs"></i> Personalizado
+    </div>
+    <!-- Guía Visual -->
+    <div class="guide"></div>
+  </div>
+
+  <!-- Contenido de las Secciones -->
+  <div id="simpleS" class="seccion">
+    <h1>Contenido de Actividad Simple</h1>
+    <p>Este es el contenido de la actividad simple.</p>
+  </div>
+  <div id="quiz" class="seccion">
+    <h1>Contenido de Quiz</h1>
+    <p>Este es el contenido del quiz.</p>
+  </div>
+  <div id="taller" class="seccion">
+    <h1>Contenido de Taller</h1>
+    <p>Este es el contenido del taller.</p>
+  </div>
+  <div id="parcial" class="seccion">
+    <h1>Contenido de Parcial</h1>
+    <p>Este es el contenido del parcial.</p>
+  </div>
+  <div id="personalizado" class="seccion">
+    <h1>Contenido Personalizado</h1>
+    <p>Este es el contenido personalizado.</p>
+  </div>
+
+  <script src="script.js"></script> <!-- Enlace al archivo JavaScript -->
+  <script type="module">
+    // Función para cambiar la visibilidad de las secciones
+    window.mostrarSeccion = function(seccionId) {
+      const secciones = document.querySelectorAll('.seccion');
+      secciones.forEach(seccion => seccion.classList.remove('activo'));
+      document.getElementById(seccionId).classList.add('activo');
+
+      // Cambiar la clase del menú para moverlo a la izquierda
+      document.getElementById('menu').classList.add('lateral');
+
+      // Activar la opción en el menú
+      const menuItems = document.querySelectorAll('.menu-item');
+      menuItems.forEach(item => item.classList.remove('active'));
+      const selectedItem = Array.from(menuItems).find(item => item.textContent.includes(seccionId));
+      if (selectedItem) {
+        selectedItem.classList.add('active');
+      }
+    };
+  </script>
+</body>
+</html>

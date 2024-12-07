@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXUS - Estudiante</title>
+  <link rel="stylesheet" href="primero.css">
+</head>
+<body>
+  <!-- Menú lateral -->
+  <div class="sidebar">
+    <h2>NEXUS</h2>
+    <ul>
+      <li onclick="showContent('cursos')">Cursos</li>
+      <li onclick="showContent('actividades')">Actividades</li>
+      <li onclick="showContent('calificaciones')">Calificaciones</li>
+      <li onclick="showContent('foro')">Foro</li>
+      <li onclick="showContent('mensajes')">Mensajes</li>
+      <li onclick="showContent('miPerfil')">Mi Perfil</li>
+    </ul>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="main-content">
+    <h1 id="sectionTitle">
+    <div class="form-container">
+        <h1>ambiente de aprendizaje </h1>
+        <label for="opciones">click aqui</label>
+        <select id="opciones" name="opciones" required>
+            <option value="">Seleccione una opción...</option>
+            <option value="cursos">Cursos</option>
+            <option value="tareasPendientes">Tareas Pendientes</option>
+            <option value="miAmbiente">Mi Ambiente</option>
+        </select>
+    </div>
+
+    <!-- Contenido que se actualizará -->
+    <div class="content-container">
+        <div id="cursos" class="content-section hidden">
+            <h2>Cursos</h2>
+            <p>Aquí se mostrarán los cursos disponibles.</p>
+        </div>
+        <div id="tareasPendientes" class="content-section hidden">
+            <h2>Tareas Pendientes</h2>
+            <p>Aquí se mostrarán las tareas que tienes pendientes.</p>
+        </div>
+        <div id="miAmbiente" class="content-section hidden">
+            <h2>Mi Ambiente</h2>
+            <p>Aquí se mostrará información sobre tu ambiente.</p>
+        </div>
+    </div>
+    </h1>
+    <div id="cursos" class="content-section">
+      <p>Aquí se mostrarán tus cursos</p>
+    </div>
+    <div id="actividades" class="content-section">
+      <p>Actividades pendientes aparecerán aquí</p>
+    </div>
+    <div id="calificaciones" class="content-section">
+      <p>Calificaciones aparecerán aquí</p>
+    </div>
+    <div id="foro" class="content-section">
+      <p>Foro de discusión aparecerá aquí</p>
+    </div>
+    <div id="mensajes" class="content-section">
+      <p>Tus mensajes aparecerán aquí</p>
+    </div>
+    <div id="miPerfil" class="content-section">
+      <p>Información de tu perfil</p>
+    </div>
+  </div>
+
+  <!-- Efecto de hoja de cuaderno en la esquina inferior -->
+  <div class="corner-note" onclick="navigateToNextPage()">
+    <p>Página siguiente</p>
+  </div>
+  
+
+  <script src="primero.js"></script>
+</body>
+</html>

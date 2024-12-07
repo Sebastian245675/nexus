@@ -1,0 +1,188 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%);
+  margin: 0;
+  padding: 0;
+}
+
+.chat-container {
+  display: flex;
+  height: 100vh;
+  padding: 20px;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: rgba(44, 62, 80, 0.85); /* Fondo semi-transparente */
+  padding: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border-radius: 15px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.3); /* Transparente con color suave */
+  color: white;
+}
+
+.chat-box {
+  flex-grow: 1;
+  background-color: rgba(255, 255, 255, 0.85); /* Fondo semi-transparente */
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  margin-left: 20px;
+  padding: 15px;
+}
+
+/* Estilos para la barra superior similar a WhatsApp */
+.header {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo semi-transparente */
+  border-radius: 15px;
+  padding: 10px;
+  margin-bottom: 10px; /* Espacio entre el header y el área de mensajes */
+}
+
+.profile-pic {
+  width: 40px; /* Tamaño de la foto de perfil */
+  height: 40px; /* Tamaño de la foto de perfil */
+  border-radius: 50%; /* Hacerla circular */
+  margin-right: 10px; /* Espacio entre la imagen y el nombre */
+}
+
+.forum-title {
+  display: flex;
+  flex-direction: column; /* Para tener el nombre y estado en vertical */
+}
+
+.forum-name {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.forum-status {
+  font-size: 0.9em; /* Tamaño del estado */
+  color: #777; /* Color del estado */
+}
+
+.messages {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: rgba(255, 255, 255, 0.1); /* Fondo más claro */
+  border-radius: 15px;
+}
+
+.input-box {
+  display: flex;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+}
+
+.input-box input {
+  flex-grow: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  background-color: rgba(230, 230, 230, 0.7); /* Suave y claro */
+  margin-right: 10px;
+  outline: none;
+}
+
+.input-box button {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.input-box button:hover {
+  background-color: #2980b9;
+}
+
+/* Estilos para el formulario de crear foro */
+.create-forum {
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo del formulario */
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 20px; /* Espacio inferior */
+}
+
+.create-forum input[type="text"] {
+  width: calc(100% - 22px); /* Para ajustar con padding */
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px; /* Espacio entre el input y el botón */
+}
+
+.create-forum button {
+  width: 100%; /* Hacer el botón más amplio */
+  padding: 10px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.create-forum button:hover {
+  background-color: #2980b9;
+}
+
+/* Estilos para la lista de foros */
+.forums-list {
+  flex-grow: 1; /* Para que tome el espacio restante */
+  overflow-y: auto; /* Permitir desplazamiento si hay muchos foros */
+  margin-top: 20px; /* Espacio superior */
+  border-radius: 15px; /* Bordes redondeados */
+  background-color: rgba(255, 255, 255, 0.1); /* Fondo claro */
+  padding: 10px; /* Espacio interno */
+}
+
+.forum-item {
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+  margin: 5px 0;
+  background-color: rgba(61, 164, 204, 0.9);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.forum-item:hover {
+  background-color: rgba(220, 220, 220, 0.8);
+}
+
+/* Media query para hacer el diseño responsive */
+@media (max-width: 768px) {
+  .chat-container {
+    flex-direction: column; /* Cambia a columna en pantallas más pequeñas */
+  }
+
+  .sidebar {
+    width: 100%; /* Ancho completo para la barra lateral */
+    margin: 0; /* Sin margen */
+  }
+
+  .chat-box {
+    margin-left: 0; /* Sin margen izquierdo */
+  }
+}

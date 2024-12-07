@@ -1,0 +1,122 @@
+/* Estilo general */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start; /* Alineación a la izquierda para dejar espacio para el menú */
+    align-items: flex-start;
+    height: 100vh;
+    background-color: #1c1c1c; /* Fondo oscuro general */
+    color: white;
+}
+
+/* Estilo del menú en su posición central */
+.menu-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    background-color: #2e2e2e;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Sombra suave */
+    transition: all 0.3s ease;
+    z-index: 10; /* Para asegurarnos que esté encima de otros elementos */
+}
+
+/* Estilo de las opciones del menú */
+.menu-item {
+    padding: 15px;
+    margin: 10px 0;
+    background-color: #444;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: left;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Icono de cada opción */
+.menu-item i {
+    font-size: 20px;
+}
+
+/* Efecto al pasar el cursor */
+.menu-item:hover {
+    background-color: #575757;
+    transform: scale(1.05); /* Aumentar ligeramente el tamaño */
+    box-shadow: 0 4px 10px rgba(255, 99, 71, 0.7); /* Resaltado */
+}
+
+/* Efecto para la opción activa */
+.menu-item.active {
+    background-color: #ff6347; /* Color vibrante para la opción activa */
+    box-shadow: 0 8px 20px rgba(255, 99, 71, 0.7);
+}
+
+/* Estilo para cuando el menú se mueve a la barra lateral */
+.menu-container.lateral {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    color: white;
+    padding-top: 20px;
+    border-radius: 0;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.7); /* Sombra lateral */
+}
+
+/* Estilo de la guía visual */
+.guide {
+    width: 30px;
+    height: 5px;
+    background-color: #ff6347;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(255, 99, 71, 0.7);
+    animation: guide-appear 0.3s ease-out;
+}
+
+/* Animación de la guía */
+@keyframes guide-appear {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+/* Estilo de las secciones ocultas */
+.seccion {
+    display: none;
+    padding: 30px;
+    background-color: #333;
+    border-radius: 12px;
+    width: calc(100% - 300px);
+    margin-left: 250px; /* Deja espacio para el menú lateral */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+    transition: margin-left 0.3s ease;
+}
+
+/* Secciones activas visibles */
+.seccion.activo {
+    display: block;
+    background-color: #444; /* Fondo oscuro para las secciones activas */
+}
+
+/* Estilo de los títulos */
+h1 {
+    font-size: 24px;
+    color: #ff6347;
+}

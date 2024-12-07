@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleccionar Rol</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        .role-selection {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .role-selection img {
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 10px;
+        }
+        .role-selection img.selected {
+            border-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Selecciona tu rol</h1>
+        <form id="role-form">
+            <div class="role-selection">
+                <label>
+                    <input type="radio" name="role" value="profesor" style="display: none;">
+                    <img src="profesor02.jpg" alt="Profesor" id="profesor">
+                </label>
+                <label>
+                    <input type="radio" name="role" value="estudiante" style="display: none;">
+                    <img src="estudiante.jpg" alt="Estudiante" id="estudiante">
+                </label>
+            </div>
+            <button type="submit">Confirmar</button>
+        </form>
+    </div>
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+    apiKey: "AIzaSyB0gh9Hq5JXTEmeqvsJHLVQULdH1W7YffM",
+    authDomain: "nexus-5c53d.firebaseapp.com",
+    projectId: "nexus-5c53d",
+    storageBucket: "nexus-5c53d.appspot.com",
+    messagingSenderId: "208164583979",
+    appId: "1:208164583979:web:8fd62a5c315fe50ad7486e",
+    measurementId: "G-WENGRWS7N9"
+  };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        document.querySelectorAll('.role-selection img').forEach(img => {
+            img.addEventListener('click', function() {
+                document.querySelectorAll('.role-selection img').forEach(img => img.classList.remove('selected'));
+                this.classList.add('selected');
+                this.previousElementSibling.checked = true;
+            });
+        });
+
+        document.getElementById('role-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const selectedRole = document.querySelector('input[name="role"]:checked');
+            if (selectedRole) {
+                const user = firebase.auth().currentUser;
+                if (user) {
+                    db.collection('users').doc(user.uid).set({
+                        role: selectedRole.value
+                    }, { merge: true })
+                    .then(() => {
+                        console.log('Rol guardado correctamente en Firebase');
+                        alert('Rol guardado correctamente en Firebase');
+                    })
+                    .catch((error) => {
+                        console.error('Error guardando el rol: ', error);
+                        alert('Error guardando el rol: ' + error.message);
+                    });
+                } else {
+                    alert('Usuario no autenticado');
+                    console.error('Usuario no autenticado');
+                }
+            } else {
+                alert('Por favor selecciona un rol.');
+                console.error('Rol no seleccionado');
+            }
+        });
+
+        // Simulate user login for testing purposes (remove in production)
+        auth.signInAnonymously()
+            .then(() => {
+                console.log('Usuario anónimo autenticado para pruebas');
+            })
+            .catch((error) => {
+                console.error('Error en autenticación anónima: ', error);
+                alert('Error en autenticación anónima: ' + error.message);
+            });
+    </script>
+</body>
+</html>

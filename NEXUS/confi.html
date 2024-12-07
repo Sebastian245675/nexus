@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuración de Perfil</title>
+
+  <!-- Firebase App (necesario para todos los servicios de Firebase) -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  
+  <!-- Firebase Auth (para autenticación de usuarios) -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  
+  <!-- Firebase Storage (para almacenar archivos) -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+
+  <link rel="stylesheet" href="confi.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar Menu -->
+    <div class="sidebar">
+      <ul>
+        <li onclick="showSection('infooo')">Información de la cuenta</li>
+        <li onclick="showSection('nonu')">Configuración de privacidad</li>
+        <li>Notificaciones</li>
+        <li>Preferencias de idioma</li>
+      </ul>
+    </div>
+
+    <!-- Profile Section -->
+    <div class="profile-section">
+      <img id="profile-pic" src="https://via.placeholder.com/150" alt="Foto de perfil" class="profile-picture">
+      <input type="file" id="file-input" accept="image/*" class="file-input">
+      <button id="upload-button" class="upload-button" disabled>Subir Imagen</button>
+    </div>
+
+    <!-- Statistics Section -->
+    <div class="stats-section">
+      <h2>Estadísticas de Actividad</h2>
+      <div class="chart">
+        <!-- Aquí podrías agregar una gráfica de estadísticas con JavaScript o una imagen de ejemplo -->
+        <img src="https://via.placeholder.com/300x150" alt="Gráfica de ejemplo">
+      </div>
+    </div>
+    <div  id="infooo" class="content-section"
+    style="display: none;"><h2>holaaaa</h2></div>
+    <div  id="nonu" class="content-section"
+    style="display: none;"><h2>tutu</h2></div>
+  </div>
+
+  <!-- Script para manejar la funcionalidad de subida -->
+  <script type="module" src="confi.js"></script> 
+   <!-- Script para manejar el cambio de vistas -->
+   <script>
+    function showSection(sectionId) {
+      // Ocultar todas las secciones
+      var sections = document.getElementsByClassName('content-section');
+      for (var i = 0; i < sections.length; i++) {
+        sections[i].style.display = 'none';
+      }
+
+      // Mostrar la sección seleccionada
+      document.getElementById(sectionId).style.display = 'block';
+    }
+  </script>
+</body>
+</html>

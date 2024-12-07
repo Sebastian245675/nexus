@@ -1,0 +1,201 @@
+/* Estilos Generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    color: #ffffff;
+    background-color: #1c1c1e;
+    overflow-x: hidden;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Barra Superior */
+.navbar {
+    width: 100%;
+    background-color: transparent;
+    padding: 1rem 0;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.navbar.scrolled {
+    background-color: #1c1c1e;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #36c2b3;
+}
+
+.navbar nav {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.btn {
+    padding: 0.6rem 1.5rem;
+    border-radius: 30px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #ffffff;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-login {
+    background-color: #1c1c1e;
+    border: 1px solid #ffffff;
+}
+
+.btn-register {
+    background-color: #36c2b3;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+/* Sección Hero Principal con Efecto Parallax */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: #fff;
+    background: url('fondo-educativo.jpg') center/cover no-repeat fixed;
+    perspective: 1000px;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.85), rgba(30, 30, 36, 0.95));
+    z-index: 1;
+}
+
+.hero-content {
+    text-align: center;
+    max-width: 700px;
+    z-index: 2;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+.hero-content h2 {
+    font-size: 3.8rem;
+    margin-bottom: 1.2rem;
+    color: #36c2b3;
+    transform: translateZ(60px);
+    perspective: 500px;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    color: #d3d3d3;
+}
+
+.btn-learn-more {
+    background-color: #36c2b3;
+    color: white;
+    padding: 0.75rem 2.5rem;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s;
+}
+
+.btn-learn-more:hover {
+    background-color: #2aa595;
+    transform: scale(1.05);
+}
+
+/* Efectos de Animación */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Sección About con Estilo 3D */
+.about {
+    padding: 3rem 0;
+    background-color: #282828;
+    color: #e0e0e0;
+    text-align: center;
+}
+
+.about h2 {
+    font-size: 2.5rem;
+    color: #36c2b3;
+    margin-bottom: 1rem;
+    transform: translateZ(50px);
+    perspective: 300px;
+}
+
+.about p {
+    max-width: 600px;
+    margin: 0 auto;
+    margin-bottom: 3rem;
+    color: #c9c9c9;
+}
+
+.features {
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem;
+}
+
+.feature {
+    width: 30%;
+    padding: 2rem;
+    border-radius: 10px;
+    background-color: #1c1c1e;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.feature:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.feature h3 {
+    font-size: 1.8rem;
+    color: #36c2b3;
+    margin-bottom: 0.5rem;
+}
+
+.feature p {
+    color: #d3d3d3;
+}
+
+/* Pie de Página */
+.footer {
+    background-color: #1c1c1e;
+    color: #888;
+    padding: 1.5rem 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.footer p {
+    margin: 0;
+}

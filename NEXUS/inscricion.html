@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscripción Plataforma Nexus</title>
+    <link rel="stylesheet" href="inscricion.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>Formulario de Inscripción</h1>
+            <form id="form">
+                <!-- Paso 1: Nombre de la Institución -->
+                <div class="step active" id="step1">
+                    <label for="institutionName">Nombre de la Institución</label>
+                    <input type="text" id="institutionName" placeholder="Ingresa el nombre de la institución" required>
+                    <button type="button" class="nextBtn" id="nextBtn1" disabled>Avanzar</button>
+                </div>
+                <!-- Paso 2: Nivel Educativo -->
+                <div class="step" id="step2">
+                    <label for="level">Nivel Educativo</label>
+                    <select id="level" required>
+                        <option value="">Selecciona el nivel</option>
+                        <option value="Primaria">Primaria</option>
+                        <option value="Secundaria">Secundaria</option>
+                        <option value="Universidad">Universidad</option>
+                        <option value="Programa Independiente">Programa Independiente</option>
+                    </select>
+                    <button type="button" class="nextBtn" id="nextBtn2" disabled>Avanzar</button>
+                </div>
+                <!-- Paso 3: Descripción de la inscripción -->
+                <div class="step" id="step3">
+                    <label for="description">Descripción de la Inscripción</label>
+                    <textarea id="description" placeholder="Describe la inscripción" required></textarea>
+                    <button type="button" class="nextBtn" id="nextBtn3" disabled>Avanzar</button>
+                </div>
+                <!-- Paso 4: Requisitos -->
+                <div class="step" id="step4">
+                    <label for="uploadDocs">¿Permitir cargue de documentos?</label>
+                    <input type="checkbox" id="uploadDocs">
+                    <div id="fileType" class="hidden">
+                        <label><input type="checkbox" class="file-option" value=".doc"> .DOC</label>
+                        <label><input type="checkbox" class="file-option" value=".pdf"> .PDF</label>
+                        <label><input type="checkbox" class="file-option" value=".jpg"> .JPG</label>
+                        <label><input type="checkbox" class="file-option" value=".png"> .PNG</label>
+                        <div class="warning-text hidden">Selecciona al menos un tipo de archivo permitido.</div>
+                    </div>
+                    <button type="button" class="nextBtn" id="nextBtn4" disabled>Avanzar</button>
+                </div>
+                <!-- Paso 5: Información de contacto y reglas -->
+                <div class="step" id="step5">
+                    <label for="contactNumber">Número de Contacto</label>
+                    <input type="tel" id="contactNumber" placeholder="Ingresa el número de contacto" required>
+                    
+                    <label for="contactEmail">Correo Electrónico de Contacto</label>
+                    <input type="email" id="contactEmail" placeholder="Ingresa el correo de contacto" required>
+                    
+                    <label for="location">Ubicación del Instituto</label>
+                    <input type="text" id="location" placeholder="Ingresa la ubicación del instituto" required>
+
+                    <label for="studentCount">Número de Estudiantes Requeridos</label>
+                    <input type="number" id="studentCount" placeholder="Ingresa la cantidad de estudiantes requeridos" required>
+
+                    <label for="rules">Establece las reglas para la inscripción</label>
+                    <textarea id="rules" placeholder="Escribe las reglas para la inscripción" required></textarea>
+
+                    <button type="submit" class="submitBtn" id="submitBtn" disabled>Publicar Convocatoria</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Importación de Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyB0gh9Hq5JXTEmeqvsJHLVQULdH1W7YffM",
+            authDomain: "nexus-5c53d.firebaseapp.com",
+            projectId: "nexus-5c53d",
+            storageBucket: "nexus-5c53d.appspot.com",
+            messagingSenderId: "208164583979",
+            appId: "1:208164583979:web:8fd62a5c315fe50ad7486e",
+            measurementId: "G-WENGRWS7N9"
+        };
+
+        // Inicialización de Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let currentStep = 1;
+        const totalSteps = 5;
+        const steps = document.querySelectorAll('.step');
+        const nextBtns = [
+            document.getElementById('nextBtn1'),
+            document.getElementById('nextBtn2'),
+            document.getElementById('nextBtn3'),
+            document.getElementById('nextBtn4')
+        ];
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Inputs
+        const institutionName = document.getElementById('institutionName');
+        const level = document.getElementById('level');
+        const description = document.getElementById('description');
+        const uploadDocs = document.getElementById('uploadDocs');
+        const fileOptions = document.querySelectorAll('.file-option');
+        const fileTypeInput = document.getElementById('fileType');
+        const contactNumber = document.getElementById('contactNumber');
+        const contactEmail = document.getElementById('contactEmail');
+        const location = document.getElementById('location');
+        const studentCount = document.getElementById('studentCount');
+        const rules = document.getElementById('rules');
+
+        function showStep(step) {
+            steps.forEach(s => s.classList.remove('active'));
+            steps[step - 1].classList.add('active');
+        }
+
+        function validateField(step) {
+            let isValid = true;
+
+            if (step === 1 && institutionName.value.trim() === "") {
+                isValid = false;
+            } else if (step === 2 && level.value === "") {
+                isValid = false;
+            } else if (step === 3 && description.value.trim() === "") {
+                isValid = false;
+            } else if (step === 4 && uploadDocs.checked && !Array.from(fileOptions).some(option => option.checked)) {
+                isValid = false;
+            } else if (step === 5 && (contactNumber.value.trim() === "" || contactEmail.value.trim() === "" || location.value.trim() === "" || studentCount.value.trim() === "" || rules.value.trim() === "")) {
+                isValid = false;
+            }
+
+            if (step < 5) {
+                nextBtns[step - 1].disabled = !isValid;
+            } else {
+                submitBtn.disabled = !isValid;
+            }
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                showStep(currentStep);
+                validateField(currentStep);
+            }
+        }
+
+        institutionName.addEventListener('input', () => validateField(1));
+        level.addEventListener('change', () => validateField(2));
+        description.addEventListener('input', () => validateField(3));
+        uploadDocs.addEventListener('change', () => {
+            fileTypeInput.classList.toggle('hidden', !uploadDocs.checked);
+            validateField(4);
+        });
+        fileOptions.forEach(option => option.addEventListener('change', () => validateField(4)));
+        contactNumber.addEventListener('input', () => validateField(5));
+        contactEmail.addEventListener('input', () => validateField(5));
+        location.addEventListener('input', () => validateField(5));
+        studentCount.addEventListener('input', () => validateField(5));
+        rules.addEventListener('input', () => validateField(5));
+
+        nextBtns.forEach((btn, index) => btn.addEventListener('click', nextStep));
+
+        showStep(currentStep);
+
+        submitBtn.addEventListener('click', async (event) => {
+            event.preventDefault();
+
+            const currentUser = auth.currentUser; // Obtiene el usuario autenticado
+            if (!currentUser) {
+                alert("Debes iniciar sesión para crear una convocatoria.");
+                return;
+            }
+
+            const data = {
+                institution: institutionName.value.trim(),
+                level: level.value,
+                description: description.value.trim(),
+                allowedFileTypes: Array.from(fileOptions).filter(option => option.checked).map(option => option.value),
+                contactNumber: contactNumber.value.trim(),
+                contactEmail: contactEmail.value.trim(),
+                location: location.value.trim(),
+                studentCount: parseInt(studentCount.value, 10),
+                rules: rules.value.trim(),
+                userId: currentUser.uid, // Se añade el UID del usuario
+                createdAt: serverTimestamp()
+            };
+
+            try {
+                await addDoc(collection(db, "convocatorias"), data);
+                alert("¡Convocatoria creada exitosamente!");
+                document.getElementById("form").reset();
+                showStep(1);
+                currentStep = 1;
+            } catch (error) {
+                console.error("Error al crear la convocatoria:", error);
+                alert("Hubo un error al crear la convocatoria. Por favor, intenta de nuevo.");
+            }
+        });
+    </script>
+</body>
+</html>

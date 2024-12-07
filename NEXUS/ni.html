@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="lists.css">
+  <title>Inscripciones Disponibles</title>
+</head>
+<body>
+  <div class="barralado">
+    <div>
+        <div class="nombre-pagina">
+            <ion-icon id="cloud" name="cloud-outline"></ion-icon>
+            <span>NEXUS</span>
+        </div>
+        <button class="boton">
+            <ion-icon name="add-outline"></ion-icon>
+            <span>nuevo curso</span>
+        </button>
+    </div>
+
+    <nav class="navegacion">
+        <ul>
+            <li><a href="#" onclick="cambiarSeccion('postulaciones')"><ion-icon name="mail-unread-outline"></ion-icon><span>postulaciones</span></a></li>
+            <li><a href="#" onclick="cambiarSeccion('historial')"><ion-icon name="star-outline"></ion-icon><span>historial</span></a></li>
+            <li><a href="#" onclick="cambiarSeccion('modificar')"><ion-icon name="paper-plane-outline"></ion-icon><span>modificar</span></a></li>
+            <li><a href="#" onclick="cambiarSeccion('convocatorias')"><ion-icon name="document-text-outline"></ion-icon><span>convocatorias</span></a></li>
+            <li><a href="#" onclick="cambiarSeccion('ayuda')"><ion-icon name="bookmark-outline"></ion-icon><span>ayuda</span></a></li>
+        </ul>
+    </nav>
+
+    <div>
+        <div class="linea"></div>
+        <div class="modo-oscuro">
+            <div class="info">
+                <ion-icon name="moon-outline"></ion-icon>
+                <span>Dark Mode</span>
+            </div>
+            <div class="switch">
+                <div class="base">
+                    <div class="circulo"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+  </div>
+
+  <div class="container" id="main-content">
+    <h1 class="titulo">Convocatorias Disponibles</h1>
+    <div class="instituciones" id="instituciones-list">
+      <!-- Aquí irán las convocatorias -->
+    </div>
+  </div>
+
+  <!-- JavaScript al final del body para asegurar que el HTML se cargue primero -->
+  <script type="module">
+    // Definimos cargarConvocatorias como una función vacía
+    function cargarConvocatorias() {
+      console.log("Cargar convocatorias...");
+    }
+
+    // Función para cambiar la sección principal
+    function cambiarSeccion(seccion) {
+      console.log("Sección seleccionada:", seccion); // Debugging
+      
+      const mainContent = document.getElementById("main-content");
+
+      if (seccion === "postulaciones") {
+        mainContent.innerHTML = `
+          <h1 class="titulo">Postulaciones</h1>
+          <div>Contenido de Postulaciones...</div>
+        `;
+      } else if (seccion === "historial") {
+        mainContent.innerHTML = `
+          <h1 class="titulo">Historial</h1>
+          <div>Contenido del Historial...</div>
+        `;
+      } else if (seccion === "modificar") {
+        mainContent.innerHTML = `
+          <h1 class="titulo">Modificar</h1>
+          <div>Contenido para Modificar...</div>
+        `;
+      } else if (seccion === "convocatorias") {
+        mainContent.innerHTML = `
+          <h1 class="titulo">Convocatorias Disponibles</h1>
+          <div id="instituciones-list">
+            <!-- Contenido de Convocatorias... -->
+          </div>
+        `;
+        cargarConvocatorias();
+      } else if (seccion === "ayuda") {
+        mainContent.innerHTML = `
+          <h1 class="titulo">Ayuda</h1>
+          <div>Contenido de Ayuda...</div>
+        `;
+      }
+    }
+
+    // Llama a cargarConvocatorias al inicio para mostrar convocatorias en la sección principal
+    cargarConvocatorias();
+  </script>
+
+  <!-- Añade el script de ionicons si no está ya en el proyecto -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

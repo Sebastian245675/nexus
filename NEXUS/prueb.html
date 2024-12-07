@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscripción Plataforma Nexus</title>
+    <link rel="stylesheet" href="inscricion.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>Formulario de Inscripción</h1>
+            <form id="form">
+                <!-- Paso 1: Nombre de la Institución -->
+                <div class="step active" id="step1">
+                    <label for="institutionName">Nombre de la Institución</label>
+                    <input type="text" id="institutionName" placeholder="Ingresa el nombre de la institución" required>
+                    <button type="button" class="nextBtn" id="nextBtn1" disabled>Avanzar</button>
+                </div>
+                <!-- Paso 2: Nivel Educativo -->
+                <div class="step" id="step2">
+                    <label for="level">Nivel Educativo</label>
+                    <select id="level" required>
+                        <option value="">Selecciona el nivel</option>
+                        <option value="Primaria">Primaria</option>
+                        <option value="Secundaria">Secundaria</option>
+                        <option value="Universidad">Universidad</option>
+                        <option value="Programa Independiente">Programa Independiente</option>
+                    </select>
+                    <button type="button" class="nextBtn" id="nextBtn2" disabled>Avanzar</button>
+                </div>
+                <!-- Paso 3: Descripción de la inscripción -->
+                <div class="step" id="step3">
+                    <label for="description">Descripción de la Inscripción</label>
+                    <textarea id="description" placeholder="Describe la inscripción" required></textarea>
+                    <button type="button" class="nextBtn" id="nextBtn3" disabled>Avanzar</button>
+                </div>
+                <!-- Paso 4: Requisitos -->
+                <div class="step" id="step4">
+                    <label for="uploadDocs">¿Permitir cargue de documentos?</label>
+                    <input type="checkbox" id="uploadDocs">
+                    <div id="fileType" class="hidden">
+                        <label><input type="checkbox" class="file-option" value=".doc"> .DOC</label>
+                        <label><input type="checkbox" class="file-option" value=".pdf"> .PDF</label>
+                        <label><input type="checkbox" class="file-option" value=".jpg"> .JPG</label>
+                        <label><input type="checkbox" class="file-option" value=".png"> .PNG</label>
+                        <div class="warning-text hidden">Selecciona al menos un tipo de archivo permitido.</div>
+                    </div>
+                    <button type="button" class="nextBtn" id="nextBtn4" disabled>Avanzar</button>
+                </div>
+                <!-- Paso 5: Reglas de inscripción -->
+                <div class="step" id="step5">
+                    <label for="rules">Establece las reglas para la inscripción</label>
+                    <textarea id="rules" placeholder="Escribe las reglas para la inscripción" required></textarea>
+                    <button type="button" class="nextBtn" id="nextBtn5" disabled>Avanzar</button>
+                </div>
+                <!-- Paso 6: Información de contacto -->
+                <div class="step" id="step6">
+                    <label for="contactName">Nombre de Contacto</label>
+                    <input type="text" id="contactName" placeholder="Nombre de contacto" required>
+                    <label for="contactEmail">Correo Electrónico</label>
+                    <input type="email" id="contactEmail" placeholder="Correo electrónico" required>
+                    <label for="contactPhone">Teléfono de Contacto</label>
+                    <input type="tel" id="contactPhone" placeholder="Teléfono de contacto" required>
+                    <label for="location">Ubicación de la Institución</label>
+                    <input type="text" id="location" placeholder="Ubicación de la institución" required>
+                    <label for="studentCount">Número de Estudiantes Requeridos</label>
+                    <input type="number" id="studentCount" placeholder="Número de estudiantes requeridos" required>
+                    <button type="submit" class="submitBtn" id="submitBtn" disabled>Publicar Convocatoria</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Importación de Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
+
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyB0gh9Hq5JXTEmeqvsJHLVQULdH1W7YffM",
+            authDomain: "nexus-5c53d.firebaseapp.com",
+            projectId: "nexus-5c53d",
+            storageBucket: "nexus-5c53d.appspot.com",
+            messagingSenderId: "208164583979",
+            appId: "1:208164583979:web:8fd62a5c315fe50ad7486e",
+            measurementId: "G-WENGRWS7N9"
+        };
+
+        // Inicialización de Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let currentStep = 1;
+        const totalSteps = 6;
+        const steps = document.querySelectorAll('.step');
+        const nextBtns = [
+            document.getElementById('nextBtn1'),
+            document.getElementById('nextBtn2'),
+            document.getElementById('nextBtn3'),
+            document.getElementById('nextBtn4'),
+            document.getElementById('nextBtn5')
+        ];
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Inputs
+        const institutionName = document.getElementById('institutionName');
+        const level = document.getElementById('level');
+        const description = document.getElementById('description');
+        const uploadDocs = document.getElementById('uploadDocs');
+        const fileOptions = document.querySelectorAll('.file-option');
+        const fileTypeInput = document.getElementById('fileType');
+        const rules = document.getElementById('rules');
+        const contactName = document.getElementById('contactName');
+        const contactEmail = document.getElementById('contactEmail');
+        const contactPhone = document.getElementById('contactPhone');
+        const location = document.getElementById('location');
+        const studentCount = document.getElementById('studentCount');
+
+        function showStep(step) {
+            steps.forEach(s => s.classList.remove('active'));
+            steps[step - 1].classList.add('active');
+        }
+
+        function validateField(step) {
+            let isValid = true;
+
+            // Validar campos
+            if (step === 1 && institutionName.value.trim() === "") {
+                isValid = false;
+            } else if (step === 2 && level.value === "") {
+                isValid = false;
+            } else if (step === 3 && description.value.trim() === "") {
+                isValid = false;
+            } else if (step === 4 && uploadDocs.checked && !Array.from(fileOptions).some(option => option.checked)) {
+                isValid = false;
+            } else if (step === 5 && rules.value.trim() === "") {
+                isValid = false;
+            } else if (step === 6 && (contactName.value.trim() === "" || contactEmail.value.trim() === "" || contactPhone.value.trim() === "" || location.value.trim() === "" || studentCount.value === "")) {
+                isValid = false;
+            }
+
+            // Activar el botón "Avanzar" solo si el campo es válido
+            if (step === 1) {
+                nextBtns[0].disabled = !isValid;
+            } else if (step === 2) {
+                nextBtns[1].disabled = !isValid;
+            } else if (step === 3) {
+                nextBtns[2].disabled = !isValid;
+            } else if (step === 4) {
+                nextBtns[3].disabled = !isValid;
+            } else if (step === 5) {
+                nextBtns[4].disabled = !isValid;
+            } else if (step === 6) {
+                submitBtn.disabled = !isValid;
+            }
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                showStep(currentStep);
+                validateField(currentStep);
+            }
+        }
+
+        // Verificar campos al cambiar
+        institutionName.addEventListener('input', () => validateField(1));
+        level.addEventListener('change', () => validateField(2));
+        description.addEventListener('input', () => validateField(3));
+        uploadDocs.addEventListener('change', () => {
+            fileTypeInput.classList.toggle('hidden', !uploadDocs.checked);
+            validateField(4);
+        });
+        fileOptions.forEach(option => option.addEventListener('change', () => validateField(4)));
+        rules.addEventListener('input', () => validateField(5));
+        contactName.addEventListener('input', () => validateField(6));
+        contactEmail.addEventListener('input', () => validateField(6));
+        contactPhone.addEventListener('input', () => validateField(6));
+        location.addEventListener('input', () => validateField(6));
+        studentCount.addEventListener('input', () => validateField(6));
+
+        // Botones para avanzar entre los pasos
+        nextBtns[0].addEventListener('click', nextStep);
+        nextBtns[1].addEventListener('click', nextStep);
+        nextBtns[2].addEventListener('click', nextStep);
+        nextBtns[3].addEventListener('click', nextStep);
+        nextBtns[4].addEventListener('click', nextStep);
+
+        // Función para enviar los datos a Firebase
+        document.getElementById('form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            // Obtenemos los valores de los campos
+            const institutionData = {
+                institutionName: institutionName.value,
+                level: level.value,
+                description: description.value,
+                uploadDocs: uploadDocs.checked,
+                fileOptions: Array.from(fileOptions).filter(option => option.checked).map(option => option.value),
+                rules: rules.value,
+                contactName: contactName.value,
+                contactEmail: contactEmail.value,
+                contactPhone: contactPhone.value,
+                location: location.value,
+                studentCount: studentCount.value,
+                timestamp: serverTimestamp()
+            };
+
+            try {
+                // Enviar los datos a Firebase
+                const docRef = await addDoc(collection(db, "inscripciones"), institutionData);
+                alert("Inscripción publicada correctamente");
+
+                // Limpiar formulario
+                document.getElementById('form').reset();
+                showStep(1);  // Regresar al primer paso
+                currentStep = 1;
+                validateField(currentStep);
+            } catch (error) {
+                console.error("Error al agregar documento: ", error);
+                alert("Hubo un error al publicar la inscripción. Por favor, inténtalo de nuevo.");
+            }
+        });
+
+        // Mostrar el primer paso por defecto
+        showStep(currentStep);
+    </script>
+</body>
+</html>
