@@ -92,6 +92,11 @@
                     .then(() => {
                         console.log('Rol guardado correctamente en Firebase');
                         alert('Rol guardado correctamente en Firebase');
+                        if (selectedRole.value === 'profesor') {
+                            window.location.href = 'prfesor.html';
+                        } else if (selectedRole.value === 'estudiante') {
+                            window.location.href = 'estudent.html';
+                        }
                     })
                     .catch((error) => {
                         console.error('Error guardando el rol: ', error);

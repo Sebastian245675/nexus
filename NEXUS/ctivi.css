@@ -1,122 +1,316 @@
 /* Estilo general */
 body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: flex-start; /* Alineación a la izquierda para dejar espacio para el menú */
-    align-items: flex-start;
-    height: 100vh;
-    background-color: #1c1c1c; /* Fondo oscuro general */
-    color: white;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 100vh;
+  background-color: #1c1c1c; /* Fondo oscuro general */
+  color: white;
+  overflow-x: hidden; /* Para evitar desplazamientos horizontales */
 }
 
 /* Estilo del menú en su posición central */
 .menu-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 250px;
-    background-color: #2e2e2e;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Sombra suave */
-    transition: all 0.3s ease;
-    z-index: 10; /* Para asegurarnos que esté encima de otros elementos */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 250px;
+  background-color: #2e2e2e;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Sombra suave */
+  transition: all 0.3s ease;
+  z-index: 10; /* Para asegurarnos que esté encima de otros elementos */
 }
 
 /* Estilo de las opciones del menú */
 .menu-item {
-    padding: 15px;
-    margin: 10px 0;
-    background-color: #444;
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: left;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  padding: 15px;
+  margin: 10px 0;
+  background-color: #444;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 /* Icono de cada opción */
 .menu-item i {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 /* Efecto al pasar el cursor */
 .menu-item:hover {
-    background-color: #575757;
-    transform: scale(1.05); /* Aumentar ligeramente el tamaño */
-    box-shadow: 0 4px 10px rgba(255, 99, 71, 0.7); /* Resaltado */
+  background-color: #575757;
+  transform: scale(1.05); /* Aumentar ligeramente el tamaño */
+  box-shadow: 0 4px 10px rgba(255, 99, 71, 0.7); /* Resaltado */
 }
 
 /* Efecto para la opción activa */
 .menu-item.active {
-    background-color: #ff6347; /* Color vibrante para la opción activa */
-    box-shadow: 0 8px 20px rgba(255, 99, 71, 0.7);
+  background-color: #ff6347; /* Color vibrante para la opción activa */
+  box-shadow: 0 8px 20px rgba(255, 99, 71, 0.7);
 }
 
 /* Estilo para cuando el menú se mueve a la barra lateral */
 .menu-container.lateral {
-    position: fixed;
-    top: 0;
-    left: 0;
-    transform: none;
-    width: 250px;
-    height: 100%;
-    background-color: #333;
-    color: white;
-    padding-top: 20px;
-    border-radius: 0;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.7); /* Sombra lateral */
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: none;
+  width: 250px;
+  height: 100%;
+  background-color: #333;
+  color: white;
+  padding-top: 20px;
+  border-radius: 0;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.7); /* Sombra lateral */
 }
 
 /* Estilo de la guía visual */
 .guide {
-    width: 30px;
-    height: 5px;
-    background-color: #ff6347;
-    margin-top: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(255, 99, 71, 0.7);
-    animation: guide-appear 0.3s ease-out;
+  width: 30px;
+  height: 5px;
+  background-color: #ff6347;
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(255, 99, 71, 0.7);
+  animation: guide-appear 0.3s ease-out;
 }
 
 /* Animación de la guía */
 @keyframes guide-appear {
-    from {
-        transform: scaleX(0);
-    }
-    to {
-        transform: scaleX(1);
-    }
+  from {
+      transform: scaleX(0);
+  }
+  to {
+      transform: scaleX(1);
+  }
 }
 
 /* Estilo de las secciones ocultas */
 .seccion {
-    display: none;
-    padding: 30px;
-    background-color: #333;
-    border-radius: 12px;
-    width: calc(100% - 300px);
-    margin-left: 250px; /* Deja espacio para el menú lateral */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-    transition: margin-left 0.3s ease;
+  display: none;
+  padding: 30px;
+  background-color: #333;
+  border-radius: 12px;
+
+  margin-left: 500px; /* Deja espacio para el menú lateral */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  transition: margin-left 0.6s ease;
 }
 
 /* Secciones activas visibles */
 .seccion.activo {
-    display: block;
-    background-color: #444; /* Fondo oscuro para las secciones activas */
+  display: block;
+  background-color: #444; /* Fondo oscuro para las secciones activas */
 }
 
 /* Estilo de los títulos */
 h1 {
-    font-size: 24px;
-    color: #ff6347;
+  font-size: 24px;
+  color: #ff6347;
+}
+
+#simpleS {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #fff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  margin-left: 300px;
+}
+
+#simpleS:hover {
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo del formulario */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+input[type="text"], textarea {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus, textarea:focus {
+  border-color: #007bff;
+}
+
+/* Estilo para las preguntas */
+#preguntasContainer {
+  margin-top: 30px;
+}
+
+.pregunta-group {
+  background-color: #fafafa;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.pregunta-group label {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.pregunta-group input[type="text"] {
+  margin-bottom: 15px;
+}
+
+#taller {
+  background-color: #333;
+  color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 900px;
+  margin-left: 350px;
+}
+
+#taller h1 {
+  font-size: 24px;
+  color: #ff6347;
+  margin-bottom: 20px;
+}
+
+#tallerForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#tallerForm label {
+  font-size: 1rem;
+  color: #ccc;
+  font-weight: bold;
+}
+
+#tallerForm input, #tallerForm textarea {
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  background-color: #444;
+  color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+#tallerForm input:focus, #tallerForm textarea:focus {
+  border-color: #ff6347;
+}
+
+#tallerForm button {
+  padding: 10px 20px;
+  background-color: #ff6347;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#tallerForm button:hover {
+  background-color: #e74c3c;
+}
+
+@media (max-width: 600px) {
+  /* Estilo para pantallas pequeñas */
+  body {
+      display: block;
+      background-color: #333;
+      padding: 10px;
+  }
+
+  .menu-container {
+      position: static;
+      transform: none;
+      width: 100%;
+      margin: 10px 0;
+  }
+
+  .menu-item {
+      font-size: 16px;
+      padding: 12px;
+      margin: 8px 0;
+  }
+
+  .seccion {
+      margin-left: 0;
+      padding: 15px;
+  }
+
+  #simpleS {
+      width: 100%;
+      margin-left: 0;
+  }
+
+  /* Ajustes para los formularios */
+  form {
+      gap: 10px;
+  }
+
+  input[type="text"], textarea {
+      font-size: 0.9rem;
+      padding: 8px;
+  }
+
+  #quiz {
+      width: 100%;
+      max-width: 100%;
+      padding: 15px;
+  }
+
+  /* Ajustes de tamaños de texto */
+  h1 {
+      font-size: 20px;
+  }
+
+  #taller {
+      margin-left: 0;
+      width: 100%;
+  }
+
+  #tallerForm {
+      gap: 15px;
+  }
+
+  #tallerForm label {
+      font-size: 0.9rem;
+  }
+
+  #tallerForm input, #tallerForm textarea {
+      font-size: 0.9rem;
+  }
+
+  #tallerForm button {
+      font-size: 0.9rem;
+  }
 }

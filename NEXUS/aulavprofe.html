@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="aula.css">
+  <title>Aula Virtual - Nexus</title>
+</head>
+<body>
+  <header>
+    <h1>Aula Virtual - Nexus</h1>
+  </header>
+
+  <main>
+    <section>
+      <button id="add-folder">Crear Carpeta</button>
+      <button id="save-changes">Guardar Cambios</button>
+      <ul id="folders-list"></ul>
+      <div id="course-content">
+        <!-- Las carpetas y contenidos del curso se cargarán aquí -->
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB0gh9Hq5JXTEmeqvsJHLVQULdH1W7YffM",
+      authDomain: "nexus-5c53d.firebaseapp.com",
+      projectId: "nexus-5c53d",
+      storageBucket: "nexus-5c53d.appspot.com",
+      messagingSenderId: "208164583979",
+      appId: "1:208164583979:web:8fd62a5c315fe50ad7486e",
+      measurementId: "G-WENGRWS7N9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseName = urlParams.get('course');
+
+    if (!courseName) {
+      alert("No se ha encontrado el nombre del curso.");
+      throw new Error("Falta el parámetro 'course' en la URL.");
+    }
+
+    async function fetchCourseData() {
+      const querySnapshot = await getDocs(collection(db, "aula"));
+      const courses = [];
+      querySnapshot.forEach(doc => {
+        const data = doc.data();
+        if (data.courseName === courseName) {
+          courses.push(data);
+        }
+      });
+      return courses;
+    }
+
+    async function renderCourseContent() {
+      const contentDiv = document.getElementById("course-content");
+      contentDiv.innerHTML = "";
+
+      const courses = await fetchCourseData();
+
+      courses.forEach(course => {
+        (course.folders || []).forEach(folder => {
+          const folderDiv = document.createElement("div");
+          folderDiv.classList.add("folder");
+
+          const header = document.createElement("div");
+          header.classList.add("folder-header");
+          header.textContent = folder.name;
+          folderDiv.appendChild(header);
+
+          const subfolderList = document.createElement("ul");
+          subfolderList.classList.add("subfolders");
+          (folder.subfolders || []).forEach(sub => {
+            const li = document.createElement("li");
+            li.textContent = sub;
+            subfolderList.appendChild(li);
+          });
+          folderDiv.appendChild(subfolderList);
+
+          const contentList = document.createElement("ul");
+          contentList.classList.add("contents");
+          (folder.contents || []).forEach(content => {
+            const li = document.createElement("li");
+
+            // Crear enlace de descarga
+            const link = document.createElement("a");
+            link.textContent = content.name; // Nombre del archivo
+            link.href = content.fileURL; // URL del archivo subido
+            link.target = "_blank"; // Abre en una nueva pestaña
+            link.rel = "noopener noreferrer"; // Seguridad adicional
+            link.download = content.name; // Permite descargar el archivo
+
+            li.appendChild(link);
+            contentList.appendChild(li);
+          });
+          folderDiv.appendChild(contentList);
+
+          contentDiv.appendChild(folderDiv);
+        });
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", renderCourseContent);
+  </script>
+  <script>
+    document.addEventListener("click", (e) => {
+      // Verifica si se hace clic en la carpeta principal
+      if (e.target.classList.contains("folder-header")) {
+        const folder = e.target.parentElement;
+        folder.classList.toggle("open"); // Muestra o esconde las subcarpetas al hacer clic en la carpeta principal
+      }
+
+      // Verifica si se hace clic en una subcarpeta
+      else if (e.target.tagName === "LI" && e.target.closest(".subfolders")) {
+        const subfolder = e.target;
+        const folder = subfolder.closest(".folder"); // Encuentra la carpeta principal donde está la subcarpeta
+        const contentList = folder.querySelector(".contents"); // Encuentra la lista de contenidos dentro de la carpeta
+
+        // Si el contenido no está visible, lo mostramos
+        if (contentList && !contentList.classList.contains("open")) {
+          contentList.classList.add("open");
+        }
+
+        // Alternar la visibilidad de la subcarpeta
+        subfolder.classList.toggle("open");
+
+        // Si la subcarpeta está abierta, también mostramos el contenido asociado
+        if (subfolder.classList.contains("open")) {
+          const contentItems = contentList.querySelectorAll("li");
+          contentItems.forEach((item) => {
+            item.classList.add("open"); // Muestra el contenido de la subcarpeta
+          });
+        } else {
+          const contentItems = contentList.querySelectorAll("li");
+          contentItems.forEach((item) => {
+            item.classList.remove("open"); // Oculta el contenido de la subcarpeta si se cierra
+          });
+        }
+      }
+    });
+  </script>
+  <script type="module" src="aula.js"></script>
+</body>
+</html>

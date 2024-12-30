@@ -24,12 +24,7 @@
     <div class="secion-perfil">
         <img id="profile-pic" src="https://via.placeholder.com/150" alt="Foto de perfil" class="profile-pic">
     </div>
-<div class="miboton">
-    <button  onclick="mostrarSeccion('perfil')">mi perfil</button>
-    <div id="perfil" class="secccion" style="display: none;">
-        <h1>hola</h1>
-    </div>
-</div>
+
     <h1>
         <span class="bienvenido">BIENVENIDO A NEXUS</span>
         <span class="textoespecial">TEACHER</span>
@@ -62,7 +57,7 @@
                 <li><a href="ctivid.html"><ion-icon name="paper-plane-outline"></ion-icon><span>actividad</span></a></li>
                 <li><a href="listinsc.html"><ion-icon name="document-text-outline"></ion-icon><span>convocatorias</span></a></li>
                 <li><a href="inscricion.html"><ion-icon name="bookmark-outline"></ion-icon><span>abrir convocatoris</span></a></li>
-                <li><a href="confi.html"><ion-icon name="alert-circle-outline"></ion-icon><span>configuracion</span></a></li>
+                <li><a href="#"><ion-icon name="alert-circle-outline"></ion-icon><span>Spam</span></a></li>
                 <li><a href="#"><ion-icon name="trash-outline"></ion-icon><span>Trash</span></a></li>
             </ul>
         </nav>
@@ -103,25 +98,7 @@
     </div>
     <script type="module" src="barra.js"></script>
 <script type="module" src="profe.js"></script>
-
-<script>
-    function mostrarSeccion() {
-        const perfil = document.getElementById("perfil");
-        if (perfil.style.display === "none" || perfil.style.display === "") {
-            perfil.style.display = "block";
-        } else {
-            perfil.style.display = "none";
-        }
-    }
-    </script>
 <script type="module">
-
-    
-        
-        
-
-
-
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
     import { getFirestore, collection, query, where, getDocs, deleteDoc} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
@@ -288,7 +265,6 @@
     
             
 </script>
-<script type="module" src="perf.js"></script>
-<script type="module" src="informacionu.js"></script>
+
 </body>
 </html>

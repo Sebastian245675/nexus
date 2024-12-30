@@ -309,6 +309,7 @@ h1 {
   transition: all 0.3s ease; /* Transición suave */
   margin-left: auto;
   margin-right: auto;
+  display: contents;
 }
 
 .students-list::-webkit-scrollbar {
@@ -365,6 +366,7 @@ h1 {
   transition: all 0.3s ease; /* Transición suave */
   scrollbar-width: thin; /* Para personalizar la barra de desplazamiento en Firefox */
   scrollbar-color: rgba(0, 0, 0, 0.2) #f4f4f9; /* Color de la barra de desplazamiento */
+  display:contents;
 }
 
 /* Personalización de la barra de desplazamiento en WebKit (Chrome, Safari, etc.) */
@@ -423,4 +425,93 @@ h1 {
   background-color: #ffffff; /* Fondo blanco para el contenedor */
   border-radius: 8px; /* Bordes redondeados */
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); /* Sombra más profunda para resaltar */
+}
+
+/*Estilo del boton para eliminar-Estudiantes*/ 
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 12px 8px 16px;
+  gap: 8px;
+  height: 40px;
+  width: 128px;
+  border: none;
+  background: #056bfa27;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.lable {
+  margin-top: 1px;
+  font-size: 19px;
+  line-height: 22px;
+  color: #056dfa;
+  letter-spacing: 1px;
+}
+
+.button:hover {
+  background: #fa05055d;
+}
+
+.button:hover .svg-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-8deg);
+  }
+
+  50% {
+    transform: rotate(0deg);
+  }
+
+  75% {
+    transform: rotate(8deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+.seccion {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #45a049;
+}
+/* Estilo para la sección de perfil */
+.seccion {
+  display: none;
+  position: fixed; /* Fija la sección en la pantalla */
+  top: 0;
+  left: 0;
+  width: 100%; /* Asegura que ocupe todo el ancho */
+  height: 100vh; /* Asegura que ocupe toda la altura de la pantalla */
+  background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro semi-transparente */
+  color: white; /* Texto blanco */
+  z-index: 1000; /* Asegura que esté encima de otros elementos */
+  display: flex;
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: center; /* Centra el contenido verticalmente */
+  flex-direction: column; /* Organiza el contenido en columna */
+  padding: 20px;
+  box-sizing: border-box; /* Asegura que el padding no afecte al tamaño total */
 }

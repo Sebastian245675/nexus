@@ -1,0 +1,484 @@
+/* Estilos Generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  body {
+    background-color: #fff; /* Fondo blanco */
+    color: #333;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+  }
+  
+  h1 {
+    font-size: 3rem;
+    color: #333;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .bienvenido {
+    font-size: 2rem;
+    color: #aaa;
+    text-align: center;
+  }
+  
+  .textoespecial {
+    font-size: 2.8rem;
+    font-family: 'Playfair Display', serif;
+    color: #1e88e5;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  /* Sección de Perfil */
+  .secion-perfil {
+    text-align: center;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    flex-direction: column;
+  }
+  
+  .profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 20px; /* Espaciado debajo de la foto */
+  }
+  
+  .profile-pic:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Barra Lateral */
+  .barralado {
+    width: 250px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+  }
+  
+  .nombre-pagina {
+    font-size: 1.4rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  .nombre-pagina ion-icon {
+    margin-right: 10px;
+    color: #1e88e5;
+  }
+  
+  .boton {
+    background-color: #1e88e5;
+    color: white;
+    font-size: 1.1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .boton ion-icon {
+    margin-right: 10px;
+  }
+  
+  .boton:hover {
+    background-color: #1976d2;
+  }
+  
+  /* Navegación */
+  .navegacion ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .navegacion li {
+    margin: 10px 0;
+  }
+  
+  .navegacion a {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: #333;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  
+  .navegacion a:hover {
+    background-color: #1e88e5;
+    color: white;
+  }
+  
+  .navegacion ion-icon {
+    margin-right: 10px;
+  }
+  
+  /* Modo Oscuro */
+  .modo-oscuro {
+    margin-top: 40px;
+  }
+  
+  .modo-oscuro .info {
+    display: flex;
+    align-items: center;
+    color: #333;
+  }
+  
+  .modo-oscuro .switch {
+    margin-top: 10px;
+  }
+  
+  .switch .base {
+    width: 40px;
+    height: 20px;
+    background-color: #bbb;
+    border-radius: 30px;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .switch .circulo {
+    width: 16px;
+    height: 16px;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Contenido Principal */
+  .principal {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-left: 270px;
+    padding: 20px;
+    width: 100%;
+  }
+  
+  .cuadro {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .cuadro img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .cuadro a {
+    display: block;
+    text-decoration: none;
+  }
+  
+  .cuadro:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .cuadro:hover img {
+    transform: scale(1.05);
+  }
+  
+  /* Barra Lateral en Pantalla Pequeña */
+  @media (max-width: 768px) {
+    .barralado {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+  
+    .principal {
+        margin-left: 0;
+    }
+  }
+  /* Estilos para la sección de "Mis Cursos" */
+  #mis-cursos {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    max-width: 800px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Título de la sección */
+  #mis-cursos h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+  }
+  
+  /* Contenedor de cada curso */
+  .course-item {
+    display: flex;
+    flex-direction: column;
+    background-color: #f7f9fc;
+    padding: 15px;
+    border-radius: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  /* Efecto de hover para cada curso */
+  .course-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Título de cada curso */
+  .course-item h4 {
+    font-size: 20px;
+    color: #333;
+    margin: 0 0 5px;
+    font-weight: 600;
+  }
+  
+  /* Descripción de cada curso */
+  .course-item p {
+    font-size: 16px;
+    color: #555;
+    margin: 0;
+    line-height: 1.5;
+  }
+  
+  /* Ajuste de la sección de "principal" para que esté debajo */
+  .principal {
+    margin-top: 30px;
+  
+  }
+  /* Estilo para la lista de estudiantes */
+  .students-list {
+   
+    max-height: 400px; /* Establece la altura máxima */
+    overflow-y: auto; /* Habilita el desplazamiento vertical si el contenido excede el tamaño */
+    padding: 20px; /* Espaciado interno */
+    background-color: #f9f9f9; /* Fondo claro para la lista */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil para profundidad */
+    transition: all 0.3s ease; /* Transición suave */
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .students-list::-webkit-scrollbar {
+    width: 8px; /* Ancho de la barra de desplazamiento */
+  }
+  
+  .students-list::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); /* Color de la barra de desplazamiento */
+    border-radius: 10px; /* Bordes redondeados en la barra de desplazamiento */
+  }
+  
+  /* Estilo para cada item de estudiante */
+  .student-item {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    margin: 10px 0;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Sombra para cada item */
+    transition: transform 0.3s ease-in-out; /* Efecto de transición */
+    align-items: center;
+    
+  }
+  
+  .student-item:hover {
+    transform: translateY(-5px); /* Efecto de desplazamiento hacia arriba al pasar el ratón */
+  }
+  
+  .student-item p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .student-item p strong {
+    font-weight: bold;
+    color: #007bff; /* Color del texto destacado */
+  }
+  
+  /* Estilo para un contenedor general */
+  .main-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }/* Estilo para la lista de estudiantes */
+  .students-list {
+    max-height: 400px; /* Establece la altura máxima */
+    overflow-y: scroll; /* Asegura que el desplazamiento vertical sea siempre visible */
+    padding: 15px; /* Espaciado interno */
+    background-color: #f4f4f9; /* Fondo claro pero ligeramente grisáceo para suavizar */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra suave para profundidad */
+    transition: all 0.3s ease; /* Transición suave */
+    scrollbar-width: thin; /* Para personalizar la barra de desplazamiento en Firefox */
+    scrollbar-color: rgba(0, 0, 0, 0.2) #f4f4f9; /* Color de la barra de desplazamiento */
+  }
+  
+  /* Personalización de la barra de desplazamiento en WebKit (Chrome, Safari, etc.) */
+  .students-list::-webkit-scrollbar {
+    width: 10px; /* Barra más ancha */
+  }
+  
+  .students-list::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3); /* Color de la barra de desplazamiento */
+    border-radius: 10px; /* Bordes redondeados en la barra */
+  }
+  
+  .students-list::-webkit-scrollbar-track {
+    background: #f4f4f9; /* Fondo de la barra de desplazamiento */
+  }
+  
+  /* Estilo para cada item de estudiante */
+  .student-item {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: 10px 0;
+    background-color: #fff;
+    border-radius: 12px; /* Bordes redondeados más pronunciados */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Efecto de transición suave */
+  }
+  
+  .student-item:hover {
+    transform: translateY(-8px); /* Desplazamiento al pasar el ratón */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Sombra más fuerte al hacer hover */
+  }
+  
+  /* Estilo para los textos dentro de cada item */
+  .student-item p {
+    margin: 8px 0;
+    font-size: 16px;
+    color: #333; /* Color de texto más oscuro */
+  }
+  
+  .student-item p strong {
+    font-weight: bold;
+    color: #007bff; /* Color azul para los textos importantes */
+  }
+  
+  /* Añadir un borde entre los items para separarlos más */
+  .student-item + .student-item {
+    border-top: 2px solid #e0e0e0; /* Borde sutil entre los items */
+  }
+  
+  /* Estilo para la cabecera o contenedor principal */
+  .main-container {
+    max-width: 900px; /* Ancho máximo para la lista */
+    margin: 0 auto; /* Centra el contenedor */
+    padding: 20px;
+    background-color: #ffffff; /* Fondo blanco para el contenedor */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); /* Sombra más profunda para resaltar */
+  }
+  /* Estilos para la sección de "Mis Talleres" */
+#mis-talleres {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    max-width: 800px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Título de la sección */
+  #mis-talleres h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+  }
+  
+  /* Contenedor de cada taller */
+  .workshop-item {
+    display: flex;
+    flex-direction: column;
+    background-color: #f7f9fc;
+    padding: 15px;
+    border-radius: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  /* Efecto de hover para cada taller */
+  .workshop-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Título de cada taller */
+  .workshop-item h4 {
+    font-size: 20px;
+    color: #333;
+    margin: 0 0 5px;
+    font-weight: 600;
+  }
+  
+  /* Descripción de cada taller */
+  .workshop-item p {
+    font-size: 16px;
+    color: #555;
+    margin: 0;
+    line-height: 1.5;
+  }
