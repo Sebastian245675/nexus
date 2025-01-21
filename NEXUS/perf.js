@@ -24,46 +24,60 @@ async function getUserInfo(userId) {
   const userSnap = await getDoc(userRef);
 
   if (userSnap.exists()) {
-    // Retorna los datos del usuario si el documento existe
-    return userSnap.data();
+      // Retorna los datos del usuario si el documento existe
+      return userSnap.data();
   } else {
-    // Si no existe, retorna null o algún valor predeterminado
-    return null;
+      // Si no existe, retorna null o algún valor predeterminado
+      return null;
   }
 }
 
 // Función para mostrar la información del usuario en el perfil
 async function showUserProfile(userId) {
   const userInfo = await getUserInfo(userId);
-  
-  const perfilDiv = document.getElementById("perfil");
+
+  const userName = document.getElementById("user-name");
+  const userAge = document.getElementById("user-age");
+  const userProfession = document.getElementById("user-profession");
+  const userCountry = document.getElementById("user-country");
+  const userCity = document.getElementById("user-city");
+
+  const profileInfo = document.getElementById("profile-info");
 
   if (userInfo) {
-    // Si existe la información del usuario, mostramos los datos en el perfil
-    perfilDiv.style.display = "block"; // Mostramos la sección de perfil
-    perfilDiv.innerHTML = `
-      <p> ${userInfo.firstName} ${userInfo.lastName}</p>
-      <p>Edad: ${userInfo.age}</p>
-      <p>Profesión: ${userInfo.profession}</p>
-      <p>País: ${userInfo.country}</p>
-      <p>Ciudad: ${userInfo.city}</p>
-    `;
+      // Si existe la información del usuario, mostramos los datos
+      userName.textContent = `${userInfo.firstName} ${userInfo.lastName}`;
+      userAge.textContent = userInfo.age;
+      userProfession.textContent = userInfo.profession;
+      userCountry.textContent = userInfo.country;
+      userCity.textContent = userInfo.city;
+
+      // Mostramos el perfil
+      profileInfo.style.display = "block";
   } else {
-    // Si no existe la información, mostramos un mensaje
-    perfilDiv.style.display = "block"; // Mostramos la sección de perfil
-    perfilDiv.innerHTML =` <h1>Completa tu perfil</h1><p>Parece que aún no has completado tu perfil. Por favor, llena la información requerida.</p>`;
+      // Si no existe la información, mostramos mensaje
+      userName.textContent = "Información no disponible";
+      userAge.textContent = "Información no disponible";
+      userProfession.textContent = "Información no disponible";
+      userCountry.textContent = "Información no disponible";
+      userCity.textContent = "Información no disponible";
+
+      profileInfo.style.display = "block";
   }
 }
 
 // Escucha cambios en el estado de autenticación
 onAuthStateChanged(auth, async (user) => {
-  const perfilDiv = document.getElementById("perfil");
-
+  const viewProfileBtn = document.getElementById("view-profile-btn");
+  
   if (user) {
-    const userId = user.uid;
-    await showUserProfile(userId); // Muestra el perfil del usuario si está autenticado
+      const userId = user.uid;
+
+      // Mostrar perfil solo cuando el usuario haga clic en "Ver Perfil"
+      viewProfileBtn.addEventListener("click", () => {
+          showUserProfile(userId);
+      });
   } else {
-    perfilDiv.style.display = "none"; // Oculta la sección de perfil si no hay un usuario autenticado
-    console.log("Usuario no autenticado");
+      console.log("Usuario no autenticado");
   }
 });

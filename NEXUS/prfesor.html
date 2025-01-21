@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="profe.css">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
@@ -9,7 +10,7 @@
     <title>NEXUS 1.0</title>
       <!-- Firebase App (necesario para todos los servicios de Firebase) -->
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-  
+  <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined&display=swap" rel="stylesheet">
   <!-- Firebase Auth (para autenticación de usuarios) -->
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
   
@@ -21,67 +22,74 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
+    <div class="ping-container">
+        <div class="wifi-icon">
+            <ion-icon name="wifi-outline"></ion-icon> <!-- Ícono de Wi-Fi -->
+        </div>
+        <div class="ping-bar-container">
+            <div id="pingBar" class="ping-bar"></div>
+        </div>
+        <div id="pingLabel" class="ping-label">Cargando...</div>
+    </div>
+    
     <div class="secion-perfil">
         <img id="profile-pic" src="https://via.placeholder.com/150" alt="Foto de perfil" class="profile-pic">
     </div>
-<div class="miboton">
-    <button  onclick="mostrarSeccion('perfil')">mi perfil</button>
-    <div id="perfil" class="secccion" style="display: none;">
-        <h1>hola</h1>
+    <button class="view-profile-btn" id="view-profile-btn">Ver Perfil</button>
+
+    <div class="profile-info" id="profile-info">
+        <h3>Tu Perfil</h3>
+        <p><strong>Nombre:</strong> <span id="user-name">Cargando...</span></p>
+        <p><strong>Edad:</strong> <span id="user-age">Cargando...</span></p>
+        <p><strong>Profesión:</strong> <span id="user-profession">Cargando...</span></p>
+        <p><strong>País:</strong> <span id="user-country">Cargando...</span></p>
+        <p><strong>Ciudad:</strong> <span id="user-city">Cargando...</span></p>
     </div>
 </div>
+
     <h1>
         <span class="bienvenido">BIENVENIDO A NEXUS</span>
         <span class="textoespecial">TEACHER</span>
     </h1>
-
+<div class="container main-content">
 <section id="mis-cursos">
     <h2>Mis Cursos</h2>
     <div id="coursesList">
         <!-- Las convocatorias se cargarán aquí -->
+         
     </div>
+    
 </section>
-
-    <div class="barralado">
-        <!-- Contenido de la barra lateral -->
-        <div>
-            <div class="nombre-pagina">
-                <ion-icon id="cloud" name="cloud-outline"></ion-icon>
-                <span>NEXUS</span>
-            </div>
-            <button class="boton">
-                <ion-icon name="add-outline"></ion-icon>
-                <span>nuevo curso</span>
-            </button>
+<div id="nuevo-elemento">
+    <h2>Pendientes</h2>
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <button id="prevMonth">&laquo; Anterior</button>
+            <h2 id="monthYear"></h2>
+            <button id="nextMonth">Siguiente &raquo;</button>
         </div>
-
-        <nav class="navegacion">
-            <ul>
-                <li><a id="inbox" href="foro.html"><ion-icon name="mail-unread-outline"></ion-icon><span>foros</span></a></li>
-                <li><a href="configuracionp.html"><ion-icon name="star-outline"></ion-icon><span>configuracion</span></a></li>
-                <li><a href="ctivid.html"><ion-icon name="paper-plane-outline"></ion-icon><span>actividad</span></a></li>
-                <li><a href="listinsc.html"><ion-icon name="document-text-outline"></ion-icon><span>convocatorias</span></a></li>
-                <li><a href="inscricion.html"><ion-icon name="bookmark-outline"></ion-icon><span>abrir convocatoris</span></a></li>
-                <li><a href="confi.html"><ion-icon name="alert-circle-outline"></ion-icon><span>configuracion</span></a></li>
-                <li><a href="#"><ion-icon name="trash-outline"></ion-icon><span>Trash</span></a></li>
-            </ul>
-        </nav>
-
-        <div>
-            <div class="linea"></div>
-            <div class="modo-oscuro">
-                <div class="info">
-                    <ion-icon name="moon-outline"></ion-icon>
-                    <span>Dark Mode</span>
-                </div>
-                <div class="switch">
-                    <div class="base">
-                        <div class="circulo"></div>
-                    </div>
-                </div>
-            </div>
+        <div class="calendar-days" id="calendarDays">
+            <!-- Aquí se generarán los días dinámicamente -->
         </div>
     </div>
+</div>
+</div>
+
+<div class="sidebar">
+    <button class="toggle-btn">☰</button>
+    <ul class="menu">
+        <li class="active"><a href="#"><i class="material-icons-outlined">home</i><span class="menu-text">Inicio</span></a></li>
+        <li><a href="#"><i class="material-icons-outlined">mail</i><span class="menu-text">Mensajes</span></a></li>
+        <li><a href="confi.html"><i class="material-icons-outlined">settings</i><span class="menu-text">Configuración</span></a></li>
+        <li><a href="#"><i class="material-icons-outlined">notifications</i><span class="menu-text">Notificaciones</span></a></li>
+        <li><a href="#"><i class="material-icons-outlined">exit_to_app</i><span class="menu-text">Salir</span></a></li>
+        <!-- Nuevas opciones -->
+        <li><a href="foro.html"><i class="material-icons-outlined">forum</i><span class="menu-text">Foros</span></a></li>
+        <li><a href="ctivid.html"><i class="material-icons-outlined">assignment</i><span class="menu-text">Actividades</span></a></li>
+        <li><a href="listinsc.html"><i class="material-icons-outlined">announcement</i><span class="menu-text">Convocatorias</span></a></li>
+        <li><a href="inscricion.html"><i class="material-icons-outlined">open_in_new</i><span class="menu-text">Abrir Convocatoria</span></a></li>
+    </ul>
+</div>
 
     <div class="principal">
         <div class="cuadro">
@@ -105,6 +113,145 @@
 <script type="module" src="profe.js"></script>
 
 <script>
+    const calendarDays = document.getElementById('calendarDays');
+    const monthYear = document.getElementById('monthYear');
+    const prevMonth = document.getElementById('prevMonth');
+    const nextMonth = document.getElementById('nextMonth');
+
+    let date = new Date(); // Fecha actual
+
+    function renderCalendar() {
+        calendarDays.innerHTML = ''; // Limpiar los días existentes
+        const year = date.getFullYear();
+        const month = date.getMonth();
+
+        // Obtener información del mes
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+        const lastDateOfMonth = new Date(year, month + 1, 0).getDate();
+        const lastDayOfPrevMonth = new Date(year, month, 0).getDate();
+
+        // Actualizar encabezado de mes y año
+        const monthNames = [
+            'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+        ];
+        monthYear.textContent = `${monthNames[month]} ${year}`;
+
+        // Generar días del mes anterior (vacíos)
+        for (let i = firstDayOfMonth - 1; i >= 0; i--) {
+            const day = lastDayOfPrevMonth - i;
+            calendarDays.innerHTML +=   `<div class="calendar-day inactive">${day}</div>`;
+        }
+
+        // Generar días del mes actual
+        for (let day = 1; day <= lastDateOfMonth; day++) {
+            const isToday =
+                day === new Date().getDate() &&
+                month === new Date().getMonth() &&
+                year === new Date().getFullYear();
+
+            calendarDays.innerHTML += `
+                <div class="calendar-day ${isToday ? 'today' : ''}" data-day="${day}">
+                    ${day}
+                </div>`;
+        }
+
+        // Marcar días pendientes
+        const pendingDays = JSON.parse(localStorage.getItem('pendingDays') || '{}');
+        const monthKey = `${year}-${month}`;
+        if (pendingDays[monthKey]) {
+            pendingDays[monthKey].forEach(day => {
+                const dayElement = document.querySelector(`[data-day='${day}']`);
+                if (dayElement) {
+                    dayElement.classList.add('pending');
+                }
+            });
+        }
+    }
+
+    function markPending(day) {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const monthKey = `${year}-${month}`;
+        const pendingDays = JSON.parse(localStorage.getItem('pendingDays') || '{}');
+
+        // Alternar marcado
+        if (!pendingDays[monthKey]) {
+            pendingDays[monthKey] = [];
+        }
+        if (pendingDays[monthKey].includes(day)) {
+            pendingDays[monthKey] = pendingDays[monthKey].filter(d => d !== day);
+        } else {
+            pendingDays[monthKey].push(day);
+        }
+
+        localStorage.setItem('pendingDays', JSON.stringify(pendingDays));
+        renderCalendar();
+    }
+
+    // Eventos para cambiar de mes
+    prevMonth.addEventListener('click', () => {
+        date.setMonth(date.getMonth() - 1);
+        renderCalendar();
+    });
+    nextMonth.addEventListener('click', () => {
+        date.setMonth(date.getMonth() + 1);
+        renderCalendar();
+    });
+
+    // Evento para marcar días como pendientes
+    calendarDays.addEventListener('click', event => {
+        const dayElement = event.target;
+        if (dayElement.classList.contains('calendar-day') && !dayElement.classList.contains('inactive')) {
+            const day = parseInt(dayElement.dataset.day, 10);
+            markPending(day);
+        }
+    });
+
+    // Inicializar calendario
+    renderCalendar();
+           // Función para obtener la conexión de red y su latencia
+           function checkConnection() {
+            const pingBar = document.getElementById("pingBar");
+            const pingLabel = document.getElementById("pingLabel");
+
+            // Verificar si navigator.connection está disponible
+            if (navigator.connection) {
+                const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+
+                const effectiveType = connection.effectiveType;
+                const downlink = connection.downlink; // Velocidad de descarga en Mbps
+                const rtt = connection.rtt || 0; // Latencia en milisegundos
+
+                // Mostrar la latencia y la velocidad
+                pingLabel.textContent = `  ${rtt}ms,  ${downlink}Mbps`;
+
+                // Modificar la barra según la latencia
+                if (rtt < 50) {
+                    pingBar.classList.add("ping-excellent");
+                } else if (rtt < 150) {
+                    pingBar.classList.add("ping-medium");
+                } else if (rtt < 300) {
+                    pingBar.classList.add("ping-low");
+                } else {
+                    pingBar.classList.add("ping-null");
+                }
+            } else {
+                pingLabel.textContent = "API no disponible en este navegador";
+            }
+        }
+
+        // Llamar a la función para comprobar la conexión cada 5 segundos
+        setInterval(checkConnection, 5000);
+        checkConnection(); // Inicializar al cargar la página
+    const toggleBtn = document.querySelector('.toggle-btn');
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
+
+    toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('collapsed');
+        mainContent.classList.toggle('collapsed');
+    });
     function mostrarSeccion() {
         const perfil = document.getElementById("perfil");
         if (perfil.style.display === "none" || perfil.style.display === "") {
@@ -288,7 +435,9 @@
     
             
 </script>
+
 <script type="module" src="perf.js"></script>
 <script type="module" src="informacionu.js"></script>
+<script type="module" src="lodephp.js"></script>
 </body>
 </html>

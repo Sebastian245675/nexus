@@ -7,79 +7,94 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #ffffff; /* Fondo blanco limpio */
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   overflow: hidden;
-  flex-direction: column;
-  padding: 0 15px;
-  transition: background-color 0.4s ease;
+  position: relative;
+  background: #000;
+}
+
+.video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
+
+#bg-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+}
+
+.login-box {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  animation: fadeIn 1s ease-in-out;
+  backdrop-filter: blur(10px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 h2 {
-  font-size: 3rem;
-  font-weight: 800;
-  text-align: center;
-  color: #333;
-  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  margin-bottom: 50px;
-  transition: color 0.3s ease, text-shadow 0.4s ease;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 20px;
 }
 
-/* Formulario principal */
-form {
-  width: 100%;
-  max-width: 480px;
-  padding: 30px 40px;
-  background-color: #fff;
-  border-radius: 15px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  position: relative;
-  overflow: hidden;
-  transform: translateY(-20px);
-  animation: fadeInUp 0.8s ease-out; /* Animación de entrada */
-  transition: all 0.3s ease;
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
 }
 
-/* Animación de desvanecimiento y deslizamiento del formulario */
-@keyframes fadeInUp {
-  0% {
-      transform: translateY(40px);
-      opacity: 0;
-  }
-  100% {
-      transform: translateY(0);
-      opacity: 1;
-  }
-}
-
-/* Estilos de las etiquetas */
 label {
-  font-size: 1.1rem;
-  color: #777;
-  font-weight: 500;
+  font-size: 1rem;
+  color: #ccc;
+  margin-bottom: 5px;
+  display: block;
 }
 
-/* Campos de texto */
 input[type="text"],
 input[type="password"] {
   width: 100%;
-  padding: 16px 20px;
+  padding: 15px;
   border: 2px solid #ddd;
   border-radius: 10px;
-  background-color: #f7f7f7;
-  font-size: 1.1rem;
-  color: #333;
-  transition: all 0.4s ease;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.2);
+  font-size: 1rem;
+  color: #fff;
+  transition: all 0.3s ease;
 }
 
-/* Efecto de enfoque con animación de borde y sombra */
 input[type="text"]:focus,
 input[type="password"]:focus {
   border-color: #6200ea;
@@ -87,19 +102,9 @@ input[type="password"]:focus {
   outline: none;
 }
 
-/* Placeholder animado al foco */
-input[type="text"]:focus::placeholder,
-input[type="password"]:focus::placeholder {
-  color: #6200ea;
-  opacity: 0.8;
-  transform: translateX(6px);
-  transition: all 0.4s ease;
-}
-
-/* Botones */
 button {
   width: 100%;
-  padding: 16px;
+  padding: 15px;
   font-size: 1.2rem;
   background-color: #6200ea;
   color: white;
@@ -110,17 +115,15 @@ button {
   margin-top: 20px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
-/* Botón Hover con transformación */
 button:hover {
   background-color: #3700b3;
   transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
 }
 
-/* Efecto de animación del botón (efecto burbuja) */
 button::after {
   content: '';
   position: absolute;
@@ -138,21 +141,19 @@ button:hover::after {
   transform: translate(-50%, -50%) scale(1);
 }
 
-/* Estilos del botón de Cerrar sesión */
 #cerrar {
   background-color: #f44336;
 }
 
 #cerrar:hover {
   background-color: #d32f2f;
-  transform: translateY(-6px);
 }
 
-/* Texto de registro */
 p {
   text-align: center;
-  font-size: 1.1rem;
-  color: #666;
+  font-size: 1rem;
+  color: #ccc;
+  margin-top: 20px;
 }
 
 a {
@@ -168,34 +169,83 @@ a:hover {
   transform: translateX(6px);
 }
 
-/* Efecto de enfoque en el formulario */
-form:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-}
-
 /* Responsividad */
-@media (max-width: 480px) {
-  body {
-      padding: 0 10px;
-  }
-
-  form {
-      width: 90%;
-      padding: 25px;
+@media (max-width: 768px) {
+  .login-box {
+    padding: 30px;
   }
 
   h2 {
-      font-size: 2.4rem;
+    font-size: 2rem;
   }
 
   button {
-      font-size: 1rem;
-      padding: 14px;
+    font-size: 1rem;
+    padding: 12px;
   }
 
   input[type="text"],
   input[type="password"] {
-      padding: 15px;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-box {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    padding: 10px;
+  }
+}
+/* Responsividad */
+@media (max-width: 768px) {
+  .login-box {
+    padding: 30px;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-box {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    padding: 10px;
   }
 }

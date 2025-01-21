@@ -1,0 +1,118 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 100%;
+    background: transparent;
+    padding: 10px 0;
+    box-shadow: 0 0 30px rgba(0,0,0,0.1);
+    transition: all .5s ease;
+    
+}
+
+ion-icon {
+    margin-right: 10px;
+    color: #1e88e5;
+  }
+svg{
+    margin-left: 16px;
+    color: #1e88e5;
+    width: 30px;
+    height: 30px;
+    border: none;
+}  
+#sidebar{
+    list-style: none;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    
+}
+.nav_list{
+    list-style: none;
+    text-decoration: none;
+    margin-left: 0%;
+}
+ul{
+    padding: 0%;
+}
+a {
+    text-decoration: none;
+    margin-bottom: auto;
+    color: inherit;
+}
+
+  /**/
+  .sidebar.active {
+    width: 240px;
+}
+.sidebar .logo_content_barraleft .logo {
+    display: flex;
+    color: #000000;
+    height: 50px;
+    width: 100%;
+    font-size: 30px;
+    align-items: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: .5s ease;
+    list-style: none;
+}
+.sidebar.active .logo_content_barraleft .logo {
+    opacity: 1;
+}
+.sidebar .logo_content_barraleft .logo  {
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0 10px;
+}
+  .sidebar.active .item_barraLeft{
+    margin-left: 1px;
+    margin-top: 20px;
+    border-radius: 5px;
+    background-color: transparent;
+    transition: border-color 0.3s ease-in-out, background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    color: rgba(255, 255, 255, 0);
+    border: none;
+    margin-bottom: 5px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    align-items: flex-start;
+    text-decoration: none;
+    } 
+
+  
+    .sidebar.active .item_barraLeft:hover,
+  .item_barraLeft:focus {
+    border-color: #3b8df2;
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05) rotateY(20deg);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+    outline: none;
+    background-color: #3b8df2;
+    text-decoration: none;
+    margin-left: 10px;
+    
+  }
+  .sidebar.active #sidebar{
+
+    border: none;
+    margin-left: 70px;
+    color: #1e88e5;
+    width: 35px;
+    height: 35px;
+    transform: translateX(47%);
+    transition: transform 0.9s ease;
+    text-decoration: none;
+    list-style: none;
+    background-color: transparent;
+ }  
+
+ .sidebar.active #darkmode{
+    width: 35px;
+    height: 35px;
+    margin-left: 10px;
+ }
+  /**/
