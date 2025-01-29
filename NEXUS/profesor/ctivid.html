@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menú Interactivo</title>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+  <link rel="stylesheet" href="ctivi.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"> <!-- Font Awesome para iconos -->
+</head>
+
+<body>
+  <!-- Contenedor del Menú -->
+  <div class="menu-container" id="menu">
+    <!-- Opciones del Menú -->
+    <div class="menu-item" onclick="mostrarSeccion('simpleS')">
+      <i class="fas fa-tasks"></i> Actividad Simple
+    </div>
+    <div class="menu-item" onclick="mostrarSeccion('quiz')">
+      <i class="fas fa-question-circle"></i> Quiz
+    </div>
+    <div class="menu-item" onclick="mostrarSeccion('taller')">
+      <i class="fas fa-chalkboard-teacher"></i> Taller
+    </div>
+    <div class="menu-item" onclick="mostrarSeccion('parcial')">
+      <i class="fas fa-calendar-check"></i> Parcial
+    </div>
+    <div class="menu-item" onclick="mostrarSeccion('personalizado')">
+      <i class="fas fa-cogs"></i> Personalizado
+    </div>
+    <!-- Guía Visual -->
+    <div class="guide"></div>
+  </div>
+
+  <!-- Contenido de las Secciones -->
+  <div id="simpleS" class="seccion">
+    <h1>Configurar Actividad Simple</h1>
+    <p>Defina los detalles de la actividad simple para sus estudiantes.</p>
+    <form id="actividadSimpleForm">
+      <label for="courseSelectSimple">Selecciona el curso:</label>
+      <select id="courseSelectSimple" name="courseSelectSimple" required>
+        <option value="">Cargando cursos...</option>
+      </select>
+      
+      <label for="titulo">Título de la Actividad:</label>
+      <input type="text" id="titulo" name="titulo" placeholder="Ingrese el título de la actividad" required>
+      
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" name="descripcion" placeholder="Ingrese una breve descripción de la actividad" required></textarea>
+      
+      <!-- Contenedor para las preguntas y opciones -->
+      <div id="preguntasContainer">
+        <div class="pregunta-group">
+          <label for="pregunta">Pregunta:</label>
+          <input type="text" class="pregunta" name="pregunta" placeholder="Escriba la pregunta" required>
+  
+          <label for="opcionA">Opción A:</label>
+          <input type="text" class="opcion" name="opcionA" placeholder="Respuesta A" required>
+  
+          <label for="opcionB">Opción B:</label>
+          <input type="text" class="opcion" name="opcionB" placeholder="Respuesta B" required>
+  
+          <label for="opcionC">Opción C:</label>
+          <input type="text" class="opcion" name="opcionC" placeholder="Respuesta C" required>
+  
+          <label for="opcionD">Opción D:</label>
+          <input type="text" class="opcion" name="opcionD" placeholder="Respuesta D" required>
+         
+        </div>
+      </div>
+  
+      <button type="button" id="agregarPregunta">Agregar Otra Pregunta</button>
+      <button type="submit" id="Guardar">Guardar Actividad</button>
+    </form>
+  </div>
+  
+  <div id="quiz" class="seccion">
+    <h1>generador de quiz</h1>
+    <form id="quizForm">
+      <label for="question">elige el tema:</label>
+      <input type="text" id="question" name="question" required>
+      <button type="submit">Enviar</button>
+    </form>
+    <div id="responseContainer"></div>
+  </div>
+  
+  <div id="taller" class="seccion">
+    <h1>Configurar Taller</h1>
+    <form id="tallerForm">
+      <label for="courseSelect">Selecciona el curso:</label>
+      <select id="courseSelect" name="courseSelect" required>
+        <option value="">Cargando cursos...</option>
+      </select>
+      <label for="nombreTaller">Nombre del Taller:</label>
+      <input type="text" id="nombreTaller" name="nombreTaller" placeholder="Ingrese el nombre del taller" required>
+  
+      <label for="fechaInicio">Fecha de Inicio:</label>
+      <input type="date" id="fechaInicio" name="fechaInicio" required>
+  
+      <label for="fechaFin">Fecha de Fin:</label>
+      <input type="date" id="fechaFin" name="fechaFin" required>
+  
+      <label for="descripcionTaller">Descripción:</label>
+      <textarea id="descripcionTaller" name="descripcionTaller" placeholder="Ingrese una breve descripción del taller" required></textarea>
+  
+      <label for="estandaresCalificacion">Estándares de Calificación:</label>
+      <textarea id="estandaresCalificacion" name="estandaresCalificacion" placeholder="Defina los estándares de calificación" required></textarea>
+  
+      <button type="submit" id="guardarTaller">Guardar Taller</button>
+    </form>
+  </div>
+  
+  <div id="parcial" class="seccion">
+    <h1>Contenido de Parcial</h1>
+    <p>Este es el contenido del parcial.</p>
+  </div>
+  
+  <div id="personalizado" class="seccion">
+    <h1>Contenido Personalizado</h1>
+    <p>Este es el contenido personalizado.</p>
+  </div>
+  
+  <script type="module">
+    // Función para cambiar la visibilidad de las secciones
+    window.mostrarSeccion = function(seccionId) {
+      const secciones = document.querySelectorAll('.seccion');
+      secciones.forEach(seccion => seccion.classList.remove('activo'));
+      document.getElementById(seccionId).classList.add('activo');
+  
+      // Cambiar la clase del menú para moverlo a la izquierda
+      document.getElementById('menu').classList.add('lateral');
+  
+      // Activar la opción en el menú
+      const menuItems = document.querySelectorAll('.menu-item');
+      menuItems.forEach(item => item.classList.remove('active'));
+      const selectedItem = Array.from(menuItems).find(item => item.textContent.includes(seccionId));
+      if (selectedItem) {
+        selectedItem.classList.add('active');
+      }
+    };
+  </script>
+  
+  <script>
+    // Función para agregar nuevas preguntas
+    document.getElementById('agregarPregunta').addEventListener('click', function() {
+      // Crear un nuevo grupo de pregunta y opciones
+      const preguntaGroup = document.createElement('div');
+      preguntaGroup.classList.add('pregunta-group');
+      
+      // Agregar los campos de la nueva pregunta
+      preguntaGroup.innerHTML = `
+        <label for="pregunta">Pregunta:</label>
+        <input type="text" class="pregunta" name="pregunta" placeholder="Escriba la pregunta" required>
+  
+        <label for="opcionA">Opción A:</label>
+        <input type="text" class="opcion" name="opcionA" placeholder="Respuesta A" required>
+  
+        <label for="opcionB">Opción B:</label>
+        <input type="text" class="opcion" name="opcionB" placeholder="Respuesta B" required>
+  
+        <label for="opcionC">Opción C:</label>
+        <input type="text" class="opcion" name="opcionC" placeholder="Respuesta C" required>
+  
+        <label for="opcionD">Opción D:</label>
+        <input type="text" class="opcion" name="opcionD" placeholder="Respuesta D" required>
+      `;
+      
+      // Añadir el nuevo grupo de preguntas al contenedor
+      document.getElementById('preguntasContainer').appendChild(preguntaGroup);
+    });
+  </script>
+  
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+  
+    // Configuración de Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyB0gh9Hq5JXTEmeqvsJHLVQULdH1W7YffM",
+      authDomain: "nexus-5c53d.firebaseapp.com",
+      projectId: "nexus-5c53d",
+      storageBucket: "nexus-5c53d.appspot.com",
+      messagingSenderId: "208164583979",
+      appId: "1:208164583979:web:8fd62a5c315fe50ad7486e",
+      measurementId: "G-WENGRWS7N9"
+    };
+  
+    // Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+  
+    // Función para cargar los cursos del usuario
+    async function loadUserCourses(userId) {
+      const courseSelectSimple = document.getElementById("courseSelectSimple");
+      const courseSelect = document.getElementById("courseSelect");
+      courseSelectSimple.innerHTML = ""; // Limpiar la lista de cursos previos
+      courseSelect.innerHTML = ""; // Limpiar la lista de cursos previos
+  
+      const clasesRef = collection(db, "clases");
+      const q = query(clasesRef, where("studentId", "==", userId));
+      const querySnapshot = await getDocs(q);
+  
+      if (querySnapshot.empty) {
+        courseSelectSimple.innerHTML = "<option value=''>No tienes cursos asignados.</option>";
+        courseSelect.innerHTML = "<option value=''>No tienes cursos asignados.</option>";
+        return;
+      }
+  
+      querySnapshot.forEach((doc) => {
+        const claseData = doc.data();
+        const option = document.createElement("option");
+        option.value = claseData.convocatoria;
+        option.textContent = claseData.convocatoria;
+        courseSelectSimple.appendChild(option);
+        courseSelect.appendChild(option.cloneNode(true));
+      });
+    }
+  
+    // Función para guardar la actividad simple en Firestore
+    document.getElementById('actividadSimpleForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevenir que el formulario se envíe de forma convencional
+  
+      // Obtener los valores del formulario
+      const nombreCurso = document.getElementById('courseSelectSimple').value;
+      const titulo = document.getElementById('titulo').value;
+      const descripcion = document.getElementById('descripcion').value;
+    
+      // Obtener preguntas y respuestas
+      const preguntas = [];
+      const preguntaElements = document.querySelectorAll('.pregunta-group');
+    
+      preguntaElements.forEach(preguntaElement => {
+        const pregunta = preguntaElement.querySelector('.pregunta').value;
+        const opcionA = preguntaElement.querySelector('input[name="opcionA"]').value;
+        const opcionB = preguntaElement.querySelector('input[name="opcionB"]').value;
+        const opcionC = preguntaElement.querySelector('input[name="opcionC"]').value;
+        const opcionD = preguntaElement.querySelector('input[name="opcionD"]').value;
+        
+        preguntas.push({
+          pregunta,
+          opciones: {
+            A: opcionA,
+            B: opcionB,
+            C: opcionC,
+            D: opcionD
+          }
+        });
+      });
+  
+      // Guardar la actividad en Firestore
+      addDoc(collection(db, "actividades"), {
+        nombreCurso: nombreCurso, // Guardar el nombre del curso
+        titulo: titulo,
+        descripcion: descripcion,
+        preguntas: preguntas,
+        timestamp: serverTimestamp() // Agregar la marca de tiempo
+      })
+      .then(() => {
+        alert('Actividad guardada exitosamente!');
+        // Limpiar el formulario
+        document.getElementById('actividadSimpleForm').reset();
+      })
+      .catch((error) => {
+        console.error("Error al guardar la actividad: ", error);
+        alert('Hubo un error al guardar la actividad.');
+      });
+    });
+  
+    // Escuchar cambios en la autenticación
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loadUserCourses(user.uid);
+      } else {
+        console.log("Usuario no autenticado");
+      }
+    });
+  </script>
+</body>
+</html>

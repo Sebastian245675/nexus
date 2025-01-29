@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat en Tiempo Real</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+  
+    <!-- Firebase App (necesario para todos los servicios de Firebase) -->
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined&display=swap" rel="stylesheet">
+<!-- Firebase Auth (para autenticación de usuarios) -->
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+
+<!-- Firebase Storage (para almacenar archivos) -->
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+     <!-- Firebase Storage (para almacenar archivos) -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="foro.css">
+</head>
+<body>
+  <div class="chat-container">
+    <div class="sidebar">
+      <div class="chat-global">NEXUS FOROS</div>
+      <div class="search-box">
+        <input type="text" placeholder="Search...">
+      </div>
+      <div class="create-forum">
+        <input type="text" id="new-forum-name" placeholder="Nombre del nuevo foro" autocomplete="off">
+        <input type="file" id="new-forum-image" accept="image/*">
+        <select id="forum-privacy">
+          <option value="public">Público</option>
+          <option value="private">Privado</option>
+        </select>
+        <input type="password" id="forum-pin" placeholder="PIN (solo para foros privados)" style="display: none;">
+        <button id="create-forum">Crear Foro</button>
+      </div>
+      <button id="my-forums-button">mis foros</button>
+
+      <div class="forums-list" id="forums-list">
+        <!-- Aquí se mostrarán los foros creados -->
+      </div>
+      <div class="my-forums-list" id="my-forums-list" style="display: none;">
+        <!-- Aquí se mostrarán los foros del usuario -->
+      </div>
+    </div>
+    
+    <div class="chat-box">
+      <div class="header">
+        <img src="perfil.jpg" alt="Foto de perfil" class="profile-pic" id="forum-profile-pic">
+        <div class="forum-title">
+          <span class="forum-name" id="forum-name">Nombre del Foro</span>
+          <span class="forum-status">Activo</span> <!-- Estado del foro -->
+        </div>
+        <button id="delete-forum" style="display: none;">Eliminar Foro</button> <!-- Botón para eliminar foro -->
+
+      </div>
+
+      <div id="messages" class="messages">
+       <div class="secion-perfil">
+        <img id="fotico" src="https://via.placeholder.com/150" alt="Foto de perfil" class="profile-pic">
+    </div><!-- Aquí se mostrarán los mensajes que vendrán de tu base de datos -->
+      </div>
+
+      <div class="input-box">
+        <input type="text" id="message" placeholder="Escribe tu mensaje aquí">
+        <button id="send">Enviar</button>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="forit.js"></script>
+  <script type="module" src="for.js"></script>
+  <script type="module" src="nuevosf.js"></script>
+  <script type="module" src="busued.js"></script>
+  <script type="module" src="perf.js"></script>
+</body>
+</html>

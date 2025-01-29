@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="aula.css">
+  <title>Aula Virtual - Nexus</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    header {
+      background-color: #007bff;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    nav {
+      width: 250px;
+      background-color: #343a40;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #495057;
+    }
+
+    .content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .folder {
+      margin-bottom: 20px;
+    }
+
+    .folder-header {
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .folder-header:hover {
+      background-color: #0056b3;
+    }
+
+    .subfolders, .contents {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0;
+      display: none;
+    }
+
+    .subfolders li, .contents li {
+      padding: 10px;
+      background-color: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      transition: background-color 0.3s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .subfolders li:hover, .contents li:hover {
+      background-color: #e9ecef;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      margin-top: 10px;
+      border: none;
+      background-color: #007bff;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .btn-delete {
+      background-color: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-delete:hover {
+      background-color: #c82333;
+    }
+
+    .btn-add-content {
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-add-content:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Aula Virtual - Nexus</h1>
+  </header>
+
+  <main>
+    <nav>
+      <a href="#" id="view-folders">Ver Carpetas</a>
+      <a href="#" id="view-grades">Ver Notas</a>
+      <a href="#" id="view-students">Ver Alumnos</a>
+      <a href="#" id="view-pending">Actividades Pendientes</a>
+    </nav>
+
+    <div class="content" id="content">
+      <section id="folders-section">
+        <button id="add-folder" class="btn">Crear Carpeta</button>
+        <button id="save-changes" class="btn">Guardar Cambios</button>
+        <ul id="folders-list"></ul>
+        <div id="course-content">
+          <!-- Las carpetas y contenidos del curso se cargarán aquí -->
+        </div>
+      </section>
+
+      <section id="grades-section" style="display: none;">
+        <h2>Notas</h2>
+        <div id="grades-content">
+          <!-- Las notas se cargarán aquí -->
+        </div>
+      </section>
+
+      <section id="students-section" style="display: none;">
+        <h2>Alumnos</h2>
+        <div id="students-content">
+          <!-- Los alumnos se cargarán aquí -->
+        </div>
+      </section>
+
+      <section id="pending-section" style="display: none;">
+        <h2>Actividades Pendientes por Calificar</h2>
+        <div id="pending-content">
+          <!-- Las actividades pendientes se cargarán aquí -->
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    import { getFirestore, collection, getDocs, deleteDoc, doc, updateDoc, arrayUnion, arrayRemove, query, where } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB0gh9Hq5JXTEmeqvsJHLVQULdH1W7YffM",
+      authDomain: "nexus-5c53d.firebaseapp.com",
+      projectId: "nexus-5c53d",
+      storageBucket: "nexus-5c53d.appspot.com",
+      messagingSenderId: "208164583979",
+      appId: "1:208164583979:web:8fd62a5c315fe50ad7486e",
+      measurementId: "G-WENGRWS7N9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseName = urlParams.get('course');
+
+    if (!courseName) {
+      alert("No se ha encontrado el nombre del curso.");
+      throw new Error("Falta el parámetro 'course' en la URL.");
+    }
+
+    async function fetchCourseData() {
+      const querySnapshot = await getDocs(collection(db, "aula"));
+      const courses = [];
+      querySnapshot.forEach(doc => {
+        const data = doc.data();
+        if (data.courseName === courseName) {
+          courses.push({ id: doc.id, ...data });
+        }
+      });
+      return courses;
+    }
+
+    async function renderCourseContent() {
+      const contentDiv = document.getElementById("course-content");
+      contentDiv.innerHTML = "";
+
+      const courses = await fetchCourseData();
+
+      courses.forEach(course => {
+        (course.folders || []).forEach(folder => {
+          const folderDiv = document.createElement("div");
+          folderDiv.classList.add("folder");
+
+          const header = document.createElement("div");
+          header.classList.add("folder-header");
+          header.innerHTML = `
+            <span>${folder.name}</span>
+            <button class="btn-delete">Eliminar Carpeta</button>
+            <button class="btn-add-content">Agregar Contenido</button>
+          `;
+          header.querySelector(".btn-delete").addEventListener("click", async () => {
+            if (confirm("¿Estás seguro de que deseas eliminar esta carpeta?")) {
+              await updateDoc(doc(db, "aula", course.id), {
+                folders: arrayRemove(folder)
+              });
+              renderCourseContent();
+            }
+          });
+          header.querySelector(".btn-add-content").addEventListener("click", () => {
+            const contentName = prompt("Ingrese el nombre del contenido:");
+            const fileInput = document.createElement("input");
+            fileInput.type = "file";
+            fileInput.onchange = async () => {
+              const file = fileInput.files[0];
+              if (file) {
+                const storageRef = ref(storage, `cursos/${courseName}/${folder.name}/${file.name}`);
+                await uploadBytes(storageRef, file);
+                const fileURL = await getDownloadURL(storageRef);
+                const updatedFolders = course.folders.map(f => {
+                  if (f.name === folder.name) {
+                    return {
+                      ...f,
+                      contents: [...(f.contents || []), { name: contentName, fileURL }]
+                    };
+                  }
+                  return f;
+                });
+                await updateDoc(doc(db, "aula", course.id), {
+                  folders: updatedFolders
+                });
+                renderCourseContent();
+              }
+            };
+            fileInput.click();
+          });
+          header.addEventListener("click", (event) => {
+            if (event.target.tagName !== "BUTTON") {
+              const subfolders = folderDiv.querySelector(".subfolders");
+              subfolders.style.display = subfolders.style.display === "none" ? "block" : "none";
+            }
+          });
+          folderDiv.appendChild(header);
+
+          const subfolderList = document.createElement("ul");
+          subfolderList.classList.add("subfolders");
+          (folder.subfolders || []).forEach(sub => {
+            const li = document.createElement("li");
+            li.textContent = sub;
+            li.addEventListener("click", (event) => {
+              event.stopPropagation();
+              const contents = li.querySelector(".contents");
+              contents.style.display = contents.style.display === "none" ? "block" : "none";
+            });
+            subfolderList.appendChild(li);
+
+            const contentList = document.createElement("ul");
+            contentList.classList.add("contents");
+            (folder.contents || []).forEach(content => {
+              const contentLi = document.createElement("li");
+
+              // Crear enlace de descarga
+              const link = document.createElement("a");
+              link.textContent = content.name; // Nombre del archivo
+              link.href = content.fileURL; // URL del archivo subido
+              link.target = "_blank"; // Abre en una nueva pestaña
+              link.rel = "noopener noreferrer"; // Seguridad adicional
+              link.download = content.name; // Permite descargar el archivo
+
+              // Botón para eliminar contenido
+              const deleteBtn = document.createElement("button");
+              deleteBtn.textContent = "Eliminar";
+              deleteBtn.classList.add("btn-delete");
+              deleteBtn.addEventListener("click", async () => {
+                if (confirm("¿Estás seguro de que deseas eliminar este contenido?")) {
+                  const updatedFolders = course.folders.map(f => {
+                    if (f.name === folder.name) {
+                      return {
+                        ...f,
+                        contents: f.contents.filter(c => c.name !== content.name)
+                      };
+                    }
+                    return f;
+                  });
+                  await updateDoc(doc(db, "aula", course.id), {
+                    folders: updatedFolders
+                  });
+                  renderCourseContent();
+                }
+              });
+
+              contentLi.appendChild(link);
+              contentLi.appendChild(deleteBtn);
+              contentList.appendChild(contentLi);
+            });
+            li.appendChild(contentList);
+          });
+          folderDiv.appendChild(subfolderList);
+
+          contentDiv.appendChild(folderDiv);
+        });
+      });
+    }
+
+    async function loadStudents(courseName) {
+      const studentsContent = document.getElementById("students-content");
+      studentsContent.innerHTML = "<p>Cargando estudiantes...</p>"; // Indicador de carga
+
+      const clasesRef = collection(db, "clases");
+      const q = query(clasesRef, where("convocatoria", "==", courseName)); // Comparar con el campo 'convocatoria'
+      const querySnapshot = await getDocs(q);
+
+      studentsContent.innerHTML = ""; // Limpiar la vista principal
+
+      if (!querySnapshot.empty) {
+        const studentsList = document.createElement("div");
+        studentsList.className = "students-list";
+
+        querySnapshot.forEach((doc) => {
+          const claseData = doc.data();
+          const studentItem = document.createElement("div");
+          studentItem.className = "student-item";
+          studentItem.innerHTML = `
+            <p><strong>Nombre:</strong> ${claseData.studentName}</p>
+            <p><strong>ID:</strong> ${claseData.userId}</p>
+            <button class="btn-delete-student">Eliminar</button>
+          `;
+          studentsList.appendChild(studentItem);
+
+          // Evento para eliminar estudiante
+          studentItem.querySelector(".btn-delete-student").addEventListener("click", async () => {
+            if (confirm("¿Estás seguro de que deseas eliminar este estudiante?")) {
+              await deleteDoc(doc(db, "clases", doc.id));
+              studentItem.remove();
+            }
+          });
+        });
+
+        studentsContent.appendChild(studentsList);
+      } else {
+        studentsContent.innerHTML = "<p>No hay estudiantes asociados a esta convocatoria.</p>";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", renderCourseContent);
+
+    document.getElementById("view-folders").addEventListener("click", () => {
+      document.getElementById("folders-section").style.display = "block";
+      document.getElementById("grades-section").style.display = "none";
+      document.getElementById("students-section").style.display = "none";
+      document.getElementById("pending-section").style.display = "none";
+    });
+
+    document.getElementById("view-grades").addEventListener("click", () => {
+      document.getElementById("folders-section").style.display = "none";
+      document.getElementById("grades-section").style.display = "block";
+      document.getElementById("students-section").style.display = "none";
+      document.getElementById("pending-section").style.display = "none";
+    });
+
+    document.getElementById("view-students").addEventListener("click", () => {
+      document.getElementById("folders-section").style.display = "none";
+      document.getElementById("grades-section").style.display = "none";
+      document.getElementById("students-section").style.display = "block";
+      document.getElementById("pending-section").style.display = "none";
+      loadStudents(courseName); // Cargar estudiantes al hacer clic en "Ver Alumnos"
+    });
+
+    document.getElementById("view-pending").addEventListener("click", () => {
+      document.getElementById("folders-section").style.display = "none";
+      document.getElementById("grades-section").style.display = "none";
+      document.getElementById("students-section").style.display = "none";
+      document.getElementById("pending-section").style.display = "block";
+    });
+  </script>
+  <script type="module" src="aula.js"></script>
+
+</body>
+</html>

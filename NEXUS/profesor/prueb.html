@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensajería</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .messaging-container {
+            display: flex;
+            width: 80%;
+            height: 80%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .contacts-list {
+            width: 30%;
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+        }
+
+        .contact-item {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .contact-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .chat-container {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+
+        .chat-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .chat-header .status {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+
+        .status.online {
+            background-color: green;
+        }
+
+        .status.offline {
+            background-color: red;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 15px;
+        }
+
+        .message.sent {
+            text-align: right;
+        }
+
+        .message.received {
+            text-align: left;
+        }
+
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .chat-input button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background-color: #0056b3;
+        }
+
+        .search-bar {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs, addDoc, serverTimestamp, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyB0gh9Hq5JXTEmeqvsJHLVQULdH1W7YffM",
+            authDomain: "nexus-5c53d.firebaseapp.com",
+            projectId: "nexus-5c53d",
+            storageBucket: "nexus-5c53d.appspot.com",
+            messagingSenderId: "208164583979",
+            appId: "1:208164583979:web:8fd62a5c315fe50ad7486e",
+            measurementId: "G-WENGRWS7N9"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let currentUser = null;
+        let selectedContactId = null;
+
+        // Función para cargar la lista de contactos
+        async function loadContacts() {
+            const contactsList = document.getElementById("contactsList");
+            contactsList.innerHTML = ""; // Limpiar la lista de contactos previos
+
+            const usersRef = collection(db, "users");
+            const q = query(usersRef, where("userId", "!=", currentUser.uid));
+            const querySnapshot = await getDocs(q);
+
+            querySnapshot.forEach((doc) => {
+                const userData = doc.data();
+                const contactItem = document.createElement("div");
+                contactItem.className = "contact-item";
+                contactItem.textContent = userData.email;
+                contactItem.addEventListener("click", () => {
+                    selectContact(doc.id, userData.email, userData.photoURL, userData.isOnline);
+                });
+                contactsList.appendChild(contactItem);
+            });
+        }
+
+        // Función para seleccionar un contacto
+        function selectContact(contactId, contactEmail, photoURL, isOnline) {
+            selectedContactId = contactId;
+            document.getElementById("chatHeader").innerHTML = `
+                <img src="${photoURL || 'default-profile.png'}" alt="Foto de perfil">
+                <span>${contactEmail}</span>
+                <div class="status ${isOnline ? 'online' : 'offline'}"></div>
+            `;
+            loadMessages();
+        }
+
+        // Función para cargar los mensajes
+        function loadMessages() {
+            const chatMessages = document.getElementById("chatMessages");
+            chatMessages.innerHTML = ""; // Limpiar los mensajes previos
+
+            const messagesRef = collection(db, "messages");
+            const q = query(messagesRef, where("participants", "array-contains", currentUser.uid), orderBy("timestamp"));
+
+            onSnapshot(q, (querySnapshot) => {
+                chatMessages.innerHTML = ""; // Limpiar los mensajes previos
+                querySnapshot.forEach((doc) => {
+                    const messageData = doc.data();
+                    const messageItem = document.createElement("div");
+                    messageItem.className = "message " + (messageData.senderId === currentUser.uid ? "sent" : "received");
+                    messageItem.textContent = messageData.message;
+                    chatMessages.appendChild(messageItem);
+                });
+                chatMessages.scrollTop = chatMessages.scrollHeight; // Desplazar hacia abajo
+            });
+        }
+
+        // Función para enviar un mensaje
+        async function sendMessage() {
+            const messageInput = document.getElementById("messageInput");
+            const message = messageInput.value.trim();
+
+            if (message && selectedContactId) {
+                await addDoc(collection(db, "messages"), {
+                    message,
+                    senderId: currentUser.uid,
+                    participants: [currentUser.uid, selectedContactId],
+                    timestamp: serverTimestamp()
+                });
+                messageInput.value = ""; // Limpiar el campo de entrada
+            }
+        }
+
+        // Función para buscar contactos por correo electrónico
+        async function searchContacts() {
+            const searchInput = document.getElementById("searchInput").value.trim().toLowerCase();
+            const contactsList = document.getElementById("contactsList");
+            contactsList.innerHTML = ""; // Limpiar la lista de contactos previos
+
+            if (searchInput) {
+                const usersRef = collection(db, "users");
+                const q = query(usersRef, where("email", ">=", searchInput), where("email", "<=", searchInput + '\uf8ff'));
+                const querySnapshot = await getDocs(q);
+
+                querySnapshot.forEach((doc) => {
+                    const userData = doc.data();
+                    const contactItem = document.createElement("div");
+                    contactItem.className = "contact-item";
+                    contactItem.textContent = userData.email;
+                    contactItem.addEventListener("click", () => {
+                        selectContact(doc.id, userData.email, userData.photoURL, userData.isOnline);
+                    });
+                    contactsList.appendChild(contactItem);
+                });
+            } else {
+                loadContacts();
+            }
+        }
+
+        // Verificar si el usuario está autenticado y cargar sus contactos
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                loadContacts();
+            } else {
+                console.log("Usuario no autenticado");
+            }
+        });
+
+        // Simulación de inicio de sesión
+        signInWithEmailAndPassword(auth, "testuser@example.com", "password123")
+            .then((userCredential) => {
+                currentUser = userCredential.user;
+                loadContacts();
+            })
+            .catch((error) => {
+                console.error("Error al iniciar sesión:", error);
+            });
+
+        document.getElementById("sendMessageBtn").addEventListener("click", sendMessage);
+        document.getElementById("messageInput").addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+        document.getElementById("searchInput").addEventListener("input", searchContacts);
+    </script>
+</head>
+<body>
+    <div class="messaging-container">
+        <div class="contacts-list">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Buscar por correo electrónico...">
+            </div>
+            <div id="contactsList">
+                <!-- Lista de contactos se cargará aquí -->
+            </div>
+        </div>
+        <div class="chat-container">
+            <div class="chat-header" id="chatHeader">
+                <!-- Información del contacto seleccionado -->
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <!-- Mensajes se cargarán aquí -->
+            </div>
+            <div class="chat-input">
+                <input type="text" id="messageInput" placeholder="Escribe un mensaje...">
+                <button id="sendMessageBtn">Enviar</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

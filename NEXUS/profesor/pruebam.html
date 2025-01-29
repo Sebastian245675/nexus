@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="lists.css">
+  <title>Inscripciones Disponibles</title>
+  <style>
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      margin-left: 250px;
+    }
+
+    .titulo {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .instituciones {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .institucion-card {
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 20px;
+      width: 300px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .institucion-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .detalles {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+    }
+
+    .btn-toggle, .btn-postularse {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .btn-toggle:hover, .btn-postularse:hover {
+      background-color: #0056b3;
+    }
+
+    .formulario-postulacion {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    .formulario-postulacion input, .formulario-postulacion textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .formulario-postulacion button {
+      width: 100%;
+      padding: 10px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .formulario-postulacion button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="barralado">
+    <div>
+        <div class="nombre-pagina">
+            <ion-icon id="cloud" name="cloud-outline"></ion-icon>
+            <span>NEXUS</span>
+        </div>
+        <button class="boton">
+            <ion-icon name="add-outline"></ion-icon>
+            <span>nuevo curso</span>
+        </button>
+    </div>
+
+    <nav class="navegacion">
+        <ul>
+            <li><a id="inbox" href="#" onclick="mostrarSeccion('postulaciones'); return false;"><ion-icon name="mail-unread-outline"></ion-icon><span>postulaciones</span></a></li>
+            <li><a href="#" onclick="mostrarSeccion('convocatorias'); return false;"><ion-icon name="star-outline"></ion-icon><span>historial</span></a></li>
+            <li><a href="#" onclick="mostrarSeccion('modificar'); return false;"><ion-icon name="paper-plane-outline"></ion-icon><span>modificar</span></a></li>
+            <li><a href="listinsc.html"><ion-icon name="document-text-outline"></ion-icon><span>convocatorias</span></a></li>
+            <li><a href="inscricion.html"><ion-icon name="bookmark-outline"></ion-icon><span>ayuda</span></a></li>
+        </ul>
+    </nav>
+
+    <div>
+        <div class="linea"></div>
+        <div class="modo-oscuro">
+            <div class="info">
+                <ion-icon name="moon-outline"></ion-icon>
+                <span>Dark Mode</span>
+            </div>
+            <div class="switch">
+                <div class="base">
+                    <div class="circulo"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  <div class="container">
+    <div id="postulaciones" class="seccion">
+      <p>ggggg</p>
+    </div>
+    <div id="convocatorias" class="seccion" style="display: block;">
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="buscar convocatoria..." oninput="buscarConvocatoria()">
+      </div>
+      <h1 class="titulo">Convocatorias Disponibles</h1>
+      <div class="instituciones" id="instituciones-list">
+        <!-- Las tarjetas de las instituciones se llenarán aquí con JavaScript -->
+      </div>
+    </div>
+    <div id="modificar" class="seccion">
+      <h2>Modificar Curso</h2>
+      <div id="seleccionarCurso">
+        <label for="courseSelect">Selecciona un curso:</label>
+        <select id="courseSelect">
+          <option value="">Selecciona un curso</option>
+          <!-- Las opciones de cursos se agregarán dinámicamente -->
+        </select>
+        <div id="courseDetails"></div>
+      </div>
+      <div id="detallesCurso" style="display:none;">
+        <h3>Detalles del Curso</h3>
+        <form id="form-modificar">
+          <input type="hidden" id="courseId" /> <!-- Este campo guardará el ID del curso -->
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    // Función para cambiar la visibilidad de las secciones
+    window.mostrarSeccion = function(seccionId) {
+      const secciones = document.querySelectorAll('.seccion');
+      secciones.forEach(seccion => seccion.style.display = 'none');
+      document.getElementById(seccionId).style.display = 'block';
+    };
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, where, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"; // Importar módulo de autenticación
+
+    // Configuración de Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyB0gh9Hq5JXTEmeqvsJHLVQULdH1W7YffM",
+      authDomain: "nexus-5c53d.firebaseapp.com",
+      projectId: "nexus-5c53d",
+      storageBucket: "nexus-5c53d.appspot.com",
+      messagingSenderId: "208164583979",
+      appId: "1:208164583979:web:8fd62a5c315fe50ad7486e",
+      measurementId: "G-WENGRWS7N9"
+    };
+
+    // Inicialización de Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);  // Obtener instancia de autenticación
+
+    let currentUserId = null;
+
+    // Verificar el estado de autenticación y obtener el ID del usuario actual
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUserId = user.uid;  // Guardamos el ID del usuario
+      } else {
+        console.log("Usuario no autenticado");
+      }
+    });
+
+    async function loadUserCourses(userId) {
+      const coursesList = document.getElementById("coursesList");
+      coursesList.innerHTML = ""; // Limpiar la lista de cursos previos
+
+      // Crear consulta para filtrar las convocatorias según el userId del docente
+      const convocatoriasRef = collection(db, "convocatorias");
+      const q = query(convocatoriasRef, where("userId", "==", userId));
+      const querySnapshot = await getDocs(q);
+
+      // Recorrer cada convocatoria y agregarla al DOM
+      querySnapshot.forEach((doc) => {
+        const convocatoriaData = doc.data();
+        const courseItem = document.createElement("div");
+        courseItem.className = "course-item";
+        courseItem.innerHTML = `
+          <h4>${convocatoriaData.institution} - ${convocatoriaData.level}</h4>
+          <p>${convocatoriaData.description}</p>
+          <p><strong>Ubicación:</strong> ${convocatoriaData.location}</p>
+          <p><strong>Estudiantes Requeridos:</strong> ${convocatoriaData.studentCount}</p>
+        `;
+        coursesList.appendChild(courseItem);
+      });
+
+      // Mensaje si no hay cursos abiertos
+      if (querySnapshot.empty) {
+        coursesList.innerHTML = "<p>No tienes convocatorias abiertas.</p>";
+      }
+    }
+
+    // Verificar si el usuario está autenticado y cargar sus convocatorias
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loadUserCourses(user.uid);
+      } else {
+        console.log("Usuario no autenticado");
+      }
+    });
+
+    // Función para cargar las convocatorias desde Firestore
+    async function cargarConvocatorias() {
+      const listaConvocatorias = document.getElementById("instituciones-list");
+
+      try {
+        const querySnapshot = await getDocs(collection(db, "convocatorias"));
+
+        if (querySnapshot.empty) {
+          console.log("No hay convocatorias disponibles.");
+        }
+
+        querySnapshot.forEach((doc) => {
+          const convocatoria = doc.data();
+          
+          // Crear tarjeta de convocatoria
+          const card = document.createElement("div");
+          card.classList.add("institucion-card");
+
+          // Nombre de la institución
+          const nombre = document.createElement("h3");
+          nombre.textContent = convocatoria.institution;
+          card.appendChild(nombre);
+
+          // Detalles adicionales (ocultos por defecto)
+          const detalles = document.createElement("div");
+          detalles.classList.add("detalles");
+          detalles.innerHTML = `
+            <p><strong>Descripción:</strong> ${convocatoria.description}</p>
+            <p><strong>Nivel:</strong> ${convocatoria.level}</p>
+            <p><strong>Requisitos:</strong> ${convocatoria.allowedFileTypes.join(', ')}</p>
+            <p><strong>Reglas:</strong> ${convocatoria.rules}</p>
+            <p><strong>Contacto:</strong> ${convocatoria.contactNumber}</p>
+            <p><strong>Correo:</strong> ${convocatoria.contactEmail}</p>
+          `;
+          card.appendChild(detalles);
+
+          // Botón para mostrar/ocultar detalles
+          const btnToggle = document.createElement("button");
+          btnToggle.classList.add("btn-toggle");
+          btnToggle.textContent = "Ver Detalles";
+          btnToggle.onclick = function () {
+            detalles.style.display = detalles.style.display === 'block' ? 'none' : 'block';
+            btnToggle.textContent = detalles.style.display === 'block' ? "Ocultar Detalles" : "Ver Detalles";
+          };
+          card.appendChild(btnToggle);
+
+          // Botón para postularse
+          const btnPostularse = document.createElement("button");
+          btnPostularse.classList.add("btn-postularse");
+          btnPostularse.textContent = "Postúlate";
+          btnPostularse.onclick = function() {
+            const formulario = document.createElement("div");
+            formulario.classList.add("formulario-postulacion");
+            formulario.innerHTML = `
+              <h3>Formulario de Postulación</h3>
+              <input type="text" id="nombre" placeholder="Tu nombre" required />
+              <input type="email" id="email" placeholder="Tu correo electrónico" required />
+              <textarea id="motivo" placeholder="Motivo de la postulación" required></textarea>
+              <button id="enviarPostulacion">Enviar Postulación</button>
+            `;
+            card.appendChild(formulario);
+
+            // Mostrar el formulario
+            formulario.style.display = "block";
+
+            // Enviar postulación
+            document.getElementById("enviarPostulacion").onclick = async function() {
+              const nombre = document.getElementById("nombre").value;
+              const email = document.getElementById("email").value;
+              const motivo = document.getElementById("motivo").value;
+
+              // Verificar que el usuario esté autenticado
+              if (!currentUserId) {
+                alert("Debes estar autenticado para postularte.");
+                return;
+              }
+
+              // Enviar la postulación a Firestore con el ID del usuario
+              try {
+                await addDoc(collection(db, "postulaciones"), {
+                  convocatoria: convocatoria.institution,
+                  nombre: nombre,
+                  email: email,
+                  motivo: motivo,
+                  userId: currentUserId,  // Guardar el ID del usuario
+                  fecha: new Date()
+                });
+                alert("¡Postulación enviada correctamente!");
+                formulario.style.display = "none";
+              } catch (error) {
+                console.error("Error al enviar la postulación:", error);
+              }
+            };
+          };
+
+          card.appendChild(btnPostularse);
+          listaConvocatorias.appendChild(card);
+        });
+      } catch (error) {
+        console.error("Error al cargar las convocatorias:", error);
+      }
+    }
+
+    // Llamamos a la función para cargar las convocatorias al cargar la página
+    cargarConvocatorias();
+
+    function buscarConvocatoria() {
+      const searchInput = document.getElementById("searchInput").value.toLowerCase();
+      const instituciones = document.querySelectorAll(".institucion-card");
+
+      instituciones.forEach((card) => {
+        const nombre = card.querySelector("h3").textContent.toLowerCase();
+        if (nombre.includes(searchInput)) {
+          card.style.display = "block";  
+        } else {
+          card.style.display = "none";   
+        }
+      });
+    }
+  </script>
+  <script type="module" src="hu.js"></script>
+  <script type="module" src="modificarconvocatoria.js"></script>
+  <!-- Code injected by live-server -->
+  <script>
+    // <![CDATA[  <-- For SVG support
+    if ('WebSocket' in window) {
+      (function () {
+        function refreshCSS() {
+          var sheets = [].slice.call(document.getElementsByTagName("link"));
+          var head = document.getElementsByTagName("head")[0];
+          for (var i = 0; i < sheets.length; ++i) {
+            var elem = sheets[i];
+            var parent = elem.parentElement || head;
+            parent.removeChild(elem);
+            var rel = elem.rel;
+            if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+              var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+              elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+            }
+            parent.appendChild(elem);
+          }
+        }
+        var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+        var address = protocol + window.location.host + window.location.pathname + '/ws';
+        var socket = new WebSocket(address);
+        socket.onmessage = function (msg) {
+          if (msg.data == 'reload') window.location.reload();
+          else if (msg.data == 'refreshcss') refreshCSS();
+        };
+        if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+          console.log('Live reload enabled.');
+          sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+        }
+      })();
+    }
+    else {
+      console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+    }
+    // ]]>
+  </script>
+</body>
+</html>

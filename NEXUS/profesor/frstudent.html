@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat en Tiempo Real</title>
+  <link rel="stylesheet" href="foro.css">
+</head>
+<body>
+  <div class="chat-container">
+    <div class="sidebar">
+      <div class="chat-global">NEXUS FOROS</div>
+      <div class="search-box">
+        <input type="text" placeholder="Search...">
+      </div>
+      <div class="create-forum">
+        <input type="text" id="new-forum-name" placeholder="Nombre del nuevo foro">
+        <button id="create-forum">Crear Foro</button>
+      </div>
+      <div class="forums-list" id="forums-list">
+        <!-- Aquí se mostrarán los foros creados -->
+      </div>
+    </div>
+    
+    <div class="chat-box">
+      <div class="header">
+        <img src="perfil.jpg" alt="Foto de perfil" class="profile-pic">
+        <div class="forum-title">
+          <span class="forum-name">Nombre del Foro</span>
+          <span class="forum-status">Activo</span> <!-- Estado del foro -->
+        </div>
+      </div>
+
+      <div id="messages" class="messages">
+        <!-- Aquí se mostrarán los mensajes que vendrán de tu base de datos -->
+      </div>
+
+      <div class="input-box">
+        <input type="text" id="message" placeholder="Escribe tu mensaje aquí">
+        <button id="send">Enviar</button>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="forit.js"></script>
+  <script type="module" src="for.js"></script>
+  <script type="module" src="nuevosf.js"></script>
+  <script type="module" src="busued.js"></script>
+</body>
+</html>

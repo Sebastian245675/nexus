@@ -1,0 +1,242 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #e5ddd5; /* Fondo similar a WhatsApp */
+  margin: 0;
+  padding: 0;
+}
+
+.chat-container {
+  display: flex;
+  height: 100vh;
+  padding: 0; /* Sin padding */
+}
+
+.sidebar {
+  width: 300px; /* Ancho similar a WhatsApp */
+  background-color: #ffffff; /* Fondo similar a WhatsApp */
+  padding: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.create-forum select,
+.create-forum input[type="password"] {
+  width: calc(100% - 22px);
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  background-color: #333; /* Fondo blanco */
+  color: #ccc; /* Texto oscuro */
+}
+
+.chat-box {
+  flex-grow: 1;
+  background-color: #ffffff; /* Fondo blanco */
+  display: flex;
+  flex-direction: column;
+  margin-left: 0; /* Sin margen izquierdo */
+  padding: 0; /* Sin padding */
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  background-color: #075e54; /* Fondo similar a WhatsApp */
+  color: white;
+  padding: 10px;
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.forum-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.forum-name {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: white; /* Texto blanco */
+}
+
+.forum-status {
+  font-size: 0.9em;
+  color: #d3d3d3; /* Texto gris claro */
+}
+
+.messages {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #e5ddd5; /* Fondo similar a WhatsApp */
+}
+
+.input-box {
+  display: flex;
+  padding: 10px;
+  background-color: #f0f0f0; /* Fondo gris claro */
+}
+
+.input-box input {
+  flex-grow: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  background-color: #ffffff; /* Fondo blanco */
+  margin-right: 10px;
+  outline: none;
+}
+
+.input-box button {
+  padding: 10px 20px;
+  background-color: #25d366; /* Color de botón similar a WhatsApp */
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.input-box button:hover {
+  background-color: #128c7e; /* Color de botón al pasar el mouse */
+}
+
+.create-forum {
+  background-color: #ffffff; /* Fondo blanco */
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.create-forum input[type="text"] {
+  width: calc(100% - 22px);
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.create-forum button {
+  width: 100%;
+  padding: 10px;
+  background-color: #25d366; /* Color de botón similar a WhatsApp */
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.create-forum button:hover {
+  background-color: #128c7e; /* Color de botón al pasar el mouse */
+}
+.forums-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-top: 20px;
+  padding: 0; /* Sin padding */
+  background-color: #ffffff; /* Fondo blanco */
+}
+#delete-forum {
+  background-color: #ff4d4d; /* Color rojo para el botón de eliminar */
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-left: auto; /* Alinear a la derecha */
+}
+
+#delete-forum:hover {
+  background-color: #ff1a1a; /* Color más oscuro al pasar el mouse */
+}
+
+.message-profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.forum-item img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.forum-item {
+  padding: 15px;
+  border-bottom: 1px solid #cccccc; /* Línea divisoria */
+  border-radius: 0; /* Sin bordes redondeados */
+  margin: 0; /* Sin margen */
+  background-color: #ffffff; /* Fondo blanco */
+  color: #000000; /* Texto negro */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.message .timestamp {
+  font-size: 0.8em;
+  color: #888;
+  text-align: right;
+  margin-top: 5px;
+}
+.message {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}.create-forum button {
+  width: 100%;
+  padding: 10px;
+  background-color: #25d366; /* Color de botón similar a WhatsApp */
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.forums-list,
+.my-forums-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-top: 20px;
+  padding: 0; /* Sin padding */
+  background-color: #ffffff; /* Fondo blanco */
+}
+.create-forum button:hover {
+  background-color: #128c7e; /* Color de botón al pasar el mouse */
+}
+.message .content {
+  background-color: #dcf8c6; /* Color de fondo similar a WhatsApp */
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+.forum-item:hover {
+  background-color: #f0f0f0; /* Fondo gris claro al pasar el mouse */
+}
+
+@media (max-width: 768px) {
+  .chat-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    margin: 0;
+  }
+
+  .chat-box {
+    margin-left: 0;
+  }
+}

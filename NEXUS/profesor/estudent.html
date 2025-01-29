@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="student.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <title>NEXUS 1.0</title>
+      <!-- Firebase App (necesario para todos los servicios de Firebase) -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  
+  <!-- Firebase Auth (para autenticación de usuarios) -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  
+  <!-- Firebase Storage (para almacenar archivos) -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+    <div class="secion-perfil">
+        <img id="profile-pic" src="https://via.placeholder.com/150" alt="Foto de perfil" class="profile-pic">
+    </div>
+
+    <h1>
+        <span class="bienvenido">BIENVENIDO A NEXUS</span>
+        <span class="textoespecial">student</span>
+    </h1>
+
+<section id="mis-cursos">
+    <h2>Mis Cursos</h2>
+    <div id="coursesList">
+        <!-- Las convocatorias se cargarán aquí -->
+    </div>
+</section>
+<section id="mis-talleres">
+    <h2>Talleres Pendientes</h2>
+    <div id="pendingWorkshops">
+        <!-- Los talleres pendientes se cargarán aquí -->
+    </div>
+</section>
+
+    <div class="barralado">
+        <!-- Contenido de la barra lateral -->
+        <div>
+            <div class="nombre-pagina">
+                <ion-icon id="cloud" name="cloud-outline"></ion-icon>
+                <span>NEXUS</span>
+            </div>
+            <button class="boton">
+                <ion-icon name="add-outline"></ion-icon>
+                <span>nuevo curso</span>
+            </button>
+        </div>
+
+        <nav class="navegacion">
+            <ul>
+                <li><a id="inbox" href="foro.html"><ion-icon name="mail-unread-outline"></ion-icon><span>foros</span></a></li>
+                <li><a href="configuracionp.html"><ion-icon name="star-outline"></ion-icon><span>configuracion</span></a></li>
+                <li><a href="ctivid.html"><ion-icon name="paper-plane-outline"></ion-icon><span>actividad</span></a></li>
+                <li><a href="listinsc.html"><ion-icon name="document-text-outline"></ion-icon><span>convocatorias</span></a></li>
+          
+                <li><a href="#"><ion-icon name="alert-circle-outline"></ion-icon><span>Spam</span></a></li>
+              
+            </ul>
+        </nav>
+
+        <div>
+            <div class="linea"></div>
+            <div class="modo-oscuro">
+                <div class="info">
+                    <ion-icon name="moon-outline"></ion-icon>
+                    <span>Dark Mode</span>
+                </div>
+                <div class="switch">
+                    <div class="base">
+                        <div class="circulo"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="principal">
+        <div class="cuadro">
+            <a href="kkk">
+                <img src="Picsart_24-09-11_17-04-33-397.png" alt="">
+            </a>
+        </div>
+        <div class="cuadro">
+            <a href="jj">
+                <img src="" alt="">
+            </a>
+        </div>
+        <div class="cuadro"><a href="uf"><img src="" alt=""></a></div>
+        <div class="cuadro"><a href=""><img src="" alt=""></a></div>
+        <div class="cuadro"><a href="im"><img src="" alt=""></a></div>
+        <div class="cuadro"><a href="im"><img src="" alt=""></a></div>
+        <div class="cuadro"><a href="im"><img src="" alt=""></a></div>
+        <div class="cuadro"><a href="im"><img src="" alt=""></a></div>
+    </div>
+    <script type="module" src="barra.js"></script>
+<script type="module" src="profe.js"></script>
+<script type="module" src="hystudens.js"></script>
+</body>
+</html>

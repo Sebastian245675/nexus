@@ -1,0 +1,251 @@
+/* Reseteo y base de diseño */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  background: #000;
+}
+
+.video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
+
+#bg-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+}
+
+.login-box {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  animation: fadeIn 1s ease-in-out;
+  backdrop-filter: blur(10px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+label {
+  font-size: 1rem;
+  color: #ccc;
+  margin-bottom: 5px;
+  display: block;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  font-size: 1rem;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: #6200ea;
+  box-shadow: 0 6px 20px rgba(98, 0, 234, 0.3);
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.2rem;
+  background-color: #6200ea;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.4s ease, box-shadow 0.3s ease;
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+button:hover {
+  background-color: #3700b3;
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+}
+
+button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background-color: #3700b3;
+  border-radius: 50%;
+  transition: all 0.4s ease;
+  transform: translate(-50%, -50%) scale(0);
+}
+
+button:hover::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+#cerrar {
+  background-color: #f44336;
+}
+
+#cerrar:hover {
+  background-color: #d32f2f;
+}
+
+p {
+  text-align: center;
+  font-size: 1rem;
+  color: #ccc;
+  margin-top: 20px;
+}
+
+a {
+  color: #6200ea;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+a:hover {
+  color: #3700b3;
+  text-decoration: underline;
+  transform: translateX(6px);
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .login-box {
+    padding: 30px;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-box {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    padding: 10px;
+  }
+}
+/* Responsividad */
+@media (max-width: 768px) {
+  .login-box {
+    padding: 30px;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-box {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    padding: 10px;
+  }
+}

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuración de Perfil</title>
+
+  <!-- Firebase App (necesario para todos los servicios de Firebase) -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  
+  <!-- Firebase Auth (para autenticación de usuarios) -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  
+  <!-- Firebase Storage (para almacenar archivos) -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+
+  <link rel="stylesheet" href="confi.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <!-- Google Fonts -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* General container */
+ 
+    
+    /* Sidebar menu */
+    .sidebar {
+      background-color: #007bff;
+      padding: 20px;
+      width: 20%;
+      color: white;
+      border-radius: 16px 0 0 16px;
+    }
+    
+    .sidebar ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    
+    .sidebar ul li {
+      padding: 10px 0;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    
+    .sidebar ul li:hover {
+      text-decoration: underline;
+    }
+    
+    /* Profile and stats section */
+    .main-content {
+      display: flex;
+      flex-grow: 1;
+    }
+
+    .main-content.hidden {
+      display: none;
+    }
+    
+    .profile-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 50%;
+      padding: 40px;
+    }
+    
+    .profile-picture {
+      border-radius: 50%;
+      border: 4px solid #007bff;
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+    }
+    
+    .file-input {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    
+    .upload-button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    
+    .upload-button:disabled {
+      background-color: #b0c4de;
+      cursor: not-allowed;
+    }
+    
+    .stats-section {
+      width: 50%;
+      padding: 40px;
+      text-align: center;
+    }
+    
+    .stats-section h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    
+    .chart img {
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+    }
+    
+    /* Dynamic sections */
+    .content-section {
+      display: none; /* Ocultas por defecto */
+      flex-grow: 1; /* Expande para ocupar el espacio restante */
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 0 16px 16px 0;
+      overflow: auto;
+    }
+
+    .content-section.active {
+      display: block; /* Mostrar la sección activa */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar Menu -->
+    <div class="sidebar">
+      <ul>
+        <li class="active" onclick="showSection('infooo')"><i class="fas fa-user"></i> Información de la cuenta</li>
+        <li onclick="showSection('nonu')"><i class="fas fa-lock"></i> Configuración de privacidad</li>
+        <li onclick="showSection('notifications')"><i class="fas fa-bell"></i> Notificaciones</li>
+        <li onclick="showSection('language')"><i class="fas fa-language"></i> Preferencias de idioma</li>
+      </ul>
+    </div>
+<div id="main-content" class="main-content">
+    <!-- Profile Section -->
+    <div class="profile-section">
+      <img id="profile-pic" src="https://via.placeholder.com/150" alt="Foto de perfil" class="profile-picture">
+      <input type="file" id="file-input" accept="image/*" class="file-input">
+      <button id="upload-button" class="upload-button" disabled>Subir Imagen</button>
+    </div>
+</div>
+    <!-- Statistics Section -->
+    
+    <div  id="infooo" class="content-section"><h2>holaaaa</h2></div>
+    <div  id="nonu" class="content-section"><div id="password-section">
+      <h2>Cambiar Contraseña</h2>
+      <form id="change-password-form">
+        <label for="new-password">Nueva Contraseña:</label>
+        <input type="password" id="new-password" placeholder="Ingresa tu nueva contraseña" required>
+        <button type="button" id="change-password-btn" class="change-password-button">Actualizar Contraseña</button>
+      </form>
+    </div></div>
+  </div>
+  
+
+  <!-- Script para manejar la funcionalidad de subida -->
+  <script type="module" src="confi.js"></script> 
+   <!-- Script para manejar el cambio de vistas -->
+  <script> function showSection(sectionId) {
+    // Ocultar todas las secciones dinámicas
+    const sections = document.getElementsByClassName('content-section');
+    for (let section of sections) {
+      section.classList.remove('active');
+      section.style.display = 'none'; // Ocultar todas las secciones
+    }
+  
+    // Mostrar la sección seleccionada
+    const selectedSection = document.getElementById(sectionId);
+    if (selectedSection) {
+      selectedSection.classList.add('active');
+      selectedSection.style.display = 'block'; // Mostrar la sección seleccionada
+    }
+  
+    // Ocultar el contenido principal si se cambia de sección
+    const mainContent = document.getElementById('main-content');
+    if (mainContent) {
+      mainContent.classList.add('hidden');
+    }
+  }
+  
+</script>
+
+  
+  <script type="module" src="nmedinfo.js"></script>
+  <script type="module" src="cambioc.js"></script>
+</body>
+</html>

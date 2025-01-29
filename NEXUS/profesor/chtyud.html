@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuración de Perfil</title>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+  <link rel="stylesheet" href="confi.css">
+  <style>
+    /* Estilos generales */
+    .container {
+      display: flex;
+      width: 100%;
+      margin: 0 auto;
+      background-color: #f5f5f7;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      height: 90vh;
+    }
+    
+    .sidebar {
+      background-color: #007bff;
+      padding: 20px;
+      width: 20%;
+      color: white;
+      border-radius: 16px 0 0 16px;
+    }
+    
+    .sidebar ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    
+    .sidebar ul li {
+      padding: 10px 0;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    
+    .sidebar ul li:hover {
+      text-decoration: underline;
+    }
+
+    .content-section {
+      display: none; /* Se ocultan por defecto */
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 0 16px 16px 0;
+      overflow: auto;
+    }
+    
+    .content-section.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <ul>
+        <li onclick="showSection('infooo')">Información de la cuenta</li>
+        <li onclick="showSection('nonu')">Configuración de privacidad</li>
+        <li>Notificaciones</li>
+        <li>Preferencias de idioma</li>
+      </ul>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div id="main-content" class="main-content">
+      <!-- Sección de Información de la cuenta -->
+      <div id="infooo" class="content-section">
+        <h2>Información de la cuenta</h2>
+        <div id="perfil"></div> <!-- Aquí se cargará la información del usuario -->
+      </div>
+
+      <div id="nonu" class="content-section">
+        <h2>Configuración de privacidad</h2>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js"></script>
+
+  <script>
+    // Configuración de Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyB0gh9Hq5JXTEmeqvsJHLVQULdH1W7YffM",
+      authDomain: "nexus-5c53d.firebaseapp.com",
+      projectId: "nexus-5c53d",
+      storageBucket: "nexus-5c53d.appspot.com",
+      messagingSenderId: "208164583979",
+      appId: "1:208164583979:web:8fd62a5c315fe50ad7486e",
+      measurementId: "G-WENGRWS7N9"
+    };
+
+    // Inicializa Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+
+    // Función para obtener la información del usuario desde Firestore
+    async function getUserInfo(userId) {
+      const userRef = db.collection("Informacion").doc(userId);
+      const userSnap = await userRef.get();
+
+      if (userSnap.exists) {
+        return userSnap.data();
+      } else {
+        return null; // Si no hay datos, retornamos null
+      }
+    }
+
+    // Función para mostrar la información del usuario en el perfil
+    async function showUserProfile() {
+      const user = auth.currentUser;
+      const perfilDiv = document.getElementById("perfil");
+      
+      if (user) {
+        const userInfo = await getUserInfo(user.uid);
+        if (userInfo) {
+          perfilDiv.innerHTML = `
+            <p>${userInfo.firstName} ${userInfo.lastName}</p>
+            <p>Edad: ${userInfo.age}</p>
+            <p>Profesión: ${userInfo.profession}</p>
+            <p>País: ${userInfo.country}</p>
+            <p>Ciudad: ${userInfo.city}</p>
+          `;
+        } 
+      } else {
+        perfilDiv.innerHTML = <h1>Inicia sesión para ver tu información</h1>;
+      }
+    }
+
+    // Función para manejar el cambio de vista
+    function showSection(sectionId) {
+      // Ocultar todas las secciones dinámicas
+      const sections = document.getElementsByClassName('content-section');
+      for (let section of sections) {
+        section.classList.remove('active');
+      }
+
+      // Mostrar la sección seleccionada
+      const selectedSection = document.getElementById(sectionId);
+      selectedSection.classList.add('active');
+
+      // Si la sección es 'infooo', cargamos la información del perfil
+      if (sectionId === 'infooo') {
+        showUserProfile(); // Cargar la información de la cuenta
+      }
+    }
+
+    // Estado de autenticación
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        // Si está autenticado, mostramos la sección de 'infooo'
+        showSection('infooo');
+      }
+    });
+  </script>
+</body>
+</html>

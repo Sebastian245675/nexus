@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="profe.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <title>NEXUS 1.0</title>
+      <!-- Firebase App (necesario para todos los servicios de Firebase) -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  
+  <!-- Firebase Auth (para autenticación de usuarios) -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  
+  <!-- Firebase Storage (para almacenar archivos) -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="secion-perfil">
+        <img id="profile-pic" src="https://via.placeholder.com/150" alt="Foto de perfil" class="profile-pic">
+    </div>
+
+    <h1>
+        <span class="bienvenido">BIENVENIDO A NEXUS</span>
+        <span class="textoespecial">TEACHER</span>
+    </h1>
+
+<section id="mis-cursos">
+    <h2>Mis Cursos</h2>
+    <div id="coursesList">
+        <!-- Las convocatorias se cargarán aquí -->
+    </div>
+</section>
+
+    <div class="barralado">
+        <!-- Contenido de la barra lateral -->
+        <div>
+            <div class="nombre-pagina">
+                <ion-icon id="cloud" name="cloud-outline"></ion-icon>
+                <span>NEXUS</span>
+            </div>
+            <button class="boton">
+                <ion-icon name="add-outline"></ion-icon>
+                <span>nuevo curso</span>
+            </button>
+        </div>
+
+        <nav class="navegacion">
+            <ul>
+                <li><a id="inbox" href="foro.html"><ion-icon name="mail-unread-outline"></ion-icon><span>foros</span></a></li>
+                <li><a href="configuracionp.html"><ion-icon name="star-outline"></ion-icon><span>configuracion</span></a></li>
+                <li><a href="ctivid.html"><ion-icon name="paper-plane-outline"></ion-icon><span>actividad</span></a></li>
+                <li><a href="listinsc.html"><ion-icon name="document-text-outline"></ion-icon><span>convocatorias</span></a></li>
+                <li><a href="inscricion.html"><ion-icon name="bookmark-outline"></ion-icon><span>abrir convocatoris</span></a></li>
+                <li><a href="#"><ion-icon name="alert-circle-outline"></ion-icon><span>Spam</span></a></li>
+                <li><a href="#"><ion-icon name="trash-outline"></ion-icon><span>Trash</span></a></li>
+            </ul>
+        </nav>
+
+        <div>
+            <div class="linea"></div>
+            <div class="modo-oscuro">
+                <div class="info">
+                    <ion-icon name="moon-outline"></ion-icon>
+                    <span>Dark Mode</span>
+                </div>
+                <div class="switch">
+                    <div class="base">
+                        <div class="circulo"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="principal">
+        <div class="cuadro">
+            <a href="kkk">
+                <img src="Picsart_24-09-11_17-04-33-397.png" alt="">
+            </a>
+        </div>
+        <div class="cuadro">
+            <a href="jj">
+                <img src="" alt="">
+            </a>
+        </div>
+        <div class="cuadro"><a href="uf"><img src="" alt=""></a></div>
+        <div class="cuadro"><a href=""><img src="" alt=""></a></div>
+        <div class="cuadro"><a href="im"><img src="" alt=""></a></div>
+        <div class="cuadro"><a href="im"><img src="" alt=""></a></div>
+        <div class="cuadro"><a href="im"><img src="" alt=""></a></div>
+        <div class="cuadro"><a href="im"><img src="" alt=""></a></div>
+    </div>
+    <script type="module" src="barra.js"></script>
+<script type="module" src="profe.js"></script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+    import { getFirestore, collection, query, where, getDocs, deleteDoc} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+    
+    // Configuración de Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyB0gh9Hq5JXTEmeqvsJHLVQULdH1W7YffM",
+        authDomain: "nexus-5c53d.firebaseapp.com",
+        projectId: "nexus-5c53d",
+        storageBucket: "nexus-5c53d.appspot.com",
+        messagingSenderId: "208164583979",
+        appId: "1:208164583979:web:8fd62a5c315fe50ad7486e",
+        measurementId: "G-WENGRWS7N9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    // Función para cargar las convocatorias del profesor
+    async function loadUserCourses(userId) {
+        const coursesList = document.getElementById("coursesList");
+        coursesList.innerHTML = ""; // Limpiar la lista de cursos previos
+
+        const convocatoriasRef = collection(db, "convocatorias");
+        const q = query(convocatoriasRef, where("userId", "==", userId));
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach((doc) => {
+            const convocatoriaData = doc.data();
+            const courseItem = document.createElement("div");
+            courseItem.className = "course-item";
+            courseItem.setAttribute("data-course-id", doc.id); // Guardar el ID del curso
+            courseItem.innerHTML = `
+                <h4>${convocatoriaData.institution} - ${convocatoriaData.level}</h4>
+                <p>${convocatoriaData.description}</p>
+                <p><strong>Ubicación:</strong> ${convocatoriaData.location}</p>
+                <p><strong>Estudiantes Requeridos:</strong> ${convocatoriaData.studentCount}</p>
+                   <button class="btn-aula"data-course-name="${convocatoriaData.institution}" >ir al aula virtual </button>
+            `;
+            coursesList.appendChild(courseItem);
+            courseItem.querySelector(".btn-aula").addEventListener("click", (event) => {
+                const courseName = event.target.getAttribute("data-course-name");
+                window.location.href = ` aulavprofe.html?course=${encodeURIComponent(courseName)}`;
+            });
+            // Evento click para cambiar la vista principal
+            courseItem.addEventListener("click", () => {
+                changeMainView(convocatoriaData.institution); // Pasar el nombre de la institución
+            });
+        });
+
+        // Mensaje si no hay cursos abiertos
+        if (querySnapshot.empty) {
+            coursesList.innerHTML = "<p>No tienes convocatorias abiertas.</p>";
+        }
+    }
+
+    // Función para cambiar el contenido de la vista principal y cargar estudiantes
+    async function changeMainView(institutionName) {
+        const mainView = document.querySelector(".principal");
+        mainView.innerHTML = "<p>Cargando estudiantes...</p>"; // Indicador de carga
+
+        const clasesRef = collection(db, "clases");
+        const q = query(clasesRef, where("convocatoria", "==", institutionName)); // Comparar con el campo 'convocatoria'
+        const querySnapshot = await getDocs(q);
+
+        mainView.innerHTML = ""; // Limpiar la vista principal
+
+        if (!querySnapshot.empty) {
+            const studentsList = document.createElement("div");
+            studentsList.className = "students-list";
+            studentsList.innerHTML=`
+            <button>
+                <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024"><path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0 188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021 28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 874.690416 484.217237 874.690416 495.52477z"></path></svg>
+                <span>Back</span>
+            </button>
+            `
+            querySnapshot.forEach((doc) => {
+                const claseData = doc.data();
+                const studentItem = document.createElement("div");
+                studentItem.className = "student-item";
+                studentItem.innerHTML = `
+                    <p><strong>Nombre:</strong> ${claseData.studentName}</p>
+                    <p><strong>ID:</strong> ${claseData.userId}</p>
+
+                        <button class="button">
+                            <svg fill="none" height="24" viewBox="0 0 24 24" width="24" class="svg-icon">
+                                <g
+                                clip-rule="evenodd"
+                                fill-rule="evenodd"
+                                stroke="#fa0505"
+                                stroke-linecap="round"
+                                stroke-width="2"
+                                >
+                                <path
+                                    d="M3 6h18M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2M5 6h14a1 1 0 011 1v12a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1z"
+                                ></path>
+                                <path
+                                    d="M8 10v6m4-6v6m4-6v6"
+                                ></path>
+                                </g>
+                            </svg>
+                            <span class="lable">Eliminar</span>
+                            </button>
+                    
+                    
+
+                `;
+                studentsList.appendChild(studentItem);
+                mainView.appendChild(studentsList);
+                        const handledeleteButton = studentItem.querySelector(".button");
+                        
+
+                            const handleDelete = async () => {
+                            try {
+                                // Mostrar alerta de confirmación con SweetAlert2
+                                const result = await Swal.fire({
+                                title: "¿Estás seguro?",
+                                text: "Esta acción no se puede deshacer",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#d33",
+                                cancelButtonColor: "#3085d6",
+                                confirmButtonText: "Sí, eliminar",
+                                cancelButtonText: "Cancelar",
+                                });
+
+                                // Si el usuario confirma, procede a eliminar
+                                if (result.isConfirmed) {
+                                await deleteDoc(doc.ref); // Eliminar el documento de la base de datos
+                                studentItem.remove(); // Eliminar el elemento visualmente
+                                Swal.fire("Eliminado", "El elemento ha sido eliminado.", "success");
+                                }
+                            } catch (error) {
+                                console.error("Error eliminando este estudiante:", error);
+                            }
+                            };
+
+                    // Agregar evento al botón
+                    handledeleteButton.addEventListener("click", handleDelete);
+
+            });
+            
+        } else {
+            mainView.innerHTML = "<p>No hay estudiantes asociados a esta convocatoria.</p>";
+        }
+
+    
+        backButton.addEventListener("click", () => {
+            loadUserCourses(auth.currentUser.uid); // Recargar los cursos
+        });
+
+        mainView.appendChild(backButton);
+    }
+
+    // Verificar si el usuario está autenticado y cargar sus convocatorias
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            loadUserCourses(user.uid);
+        } else {
+            console.log("Usuario no autenticado");
+        }
+    });
+    
+            
+</script>
+
+</body>
+</html>

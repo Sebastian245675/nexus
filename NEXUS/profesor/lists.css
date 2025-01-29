@@ -1,0 +1,421 @@
+.barralado {
+  width: 250px;
+  background-color: #f4f4f4;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+.nombre-pagina {
+  font-size: 1.4rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.nombre-pagina ion-icon {
+  margin-right: 10px;
+  color: #1e88e5;
+}
+
+.boton {
+  background-color: #1e88e5;
+  color: white;
+  font-size: 1.1rem;
+  padding: 10px 20px;
+  border-radius: 5px;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.boton ion-icon {
+  margin-right: 10px;
+}
+
+.boton:hover {
+  background-color: #1976d2;
+}
+
+/* Navegación */
+.navegacion ul {
+  list-style: none;
+  padding: 0;
+}
+
+.navegacion li {
+  margin: 10px 0;
+}
+
+.navegacion a {
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+  text-decoration: none;
+  color: #333;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.navegacion a:hover {
+  background-color: #1e88e5;
+  color: white;
+}
+
+.navegacion ion-icon {
+  margin-right: 10px;
+}
+.search-bar{
+  margin:20px 0;
+  text-align: center;
+}
+.search-bar input{
+width: 50%;
+padding: 10px;
+font-size: 1rem;
+border-radius: 5px;
+border:1px solid #ddd;
+}
+.search-bar input:focus{
+  outline: none;
+  border-color: #007bff;
+}
+/* Estilo general para la sección de postulaciones */
+#postulaciones {
+  background: linear-gradient(135deg, #1f2937, #3b82f6);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+flex: 1;
+  color: #ffffff;
+  font-family: 'Arial', sans-serif;
+  margin: 20px auto;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Títulos dentro de las postulaciones */
+#postulaciones h4 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+  margin-bottom: 10px;
+  border-bottom: 2px solid #3b82f6;
+  padding-bottom: 5px;
+}
+
+/* Subtítulos y párrafos */
+#postulaciones p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #d1d5db;
+  margin-bottom: 10px;
+}
+
+/* Estilo para los contenedores individuales de las postulaciones */
+.postulaciones-list .post-item {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid #3b82f6;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.postulaciones-list .post-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Información destacada */
+.postulaciones-list .post-item p strong {
+  color: #3b82f6;
+  font-weight: bold;
+}
+
+/* Animación para que aparezca suavemente */
+@keyframes fadeIn {
+  0% {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* Botones interactivos */
+button {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #2563eb;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Hacer la sección responsiva */
+@media (max-width: 768px) {
+  #postulaciones {
+      padding: 15px;
+  }
+  #postulaciones h4 {
+      font-size: 1.5rem;
+  }
+  #postulaciones p {
+      font-size: 1rem;
+  }
+}
+/* Barra superior elegante */
+.navbar {
+  width: calc(100% - 250px); /* Ajusta el ancho considerando la barra lateral */
+  height: 60px;
+  background: linear-gradient(90deg, #1e88e5, #50e3c2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  position: fixed;
+  top: 0;
+  left: 250px; /* Alineación a la derecha de la barra lateral */
+  z-index: 2000; /* Asegurarse de que la barra superior esté por encima */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Título en la barra superior */
+.navbar h1 {
+  font-size: 1.5rem;
+  color: white;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+  font-family: 'Arial', sans-serif;
+}
+
+/* Menú de la barra superior */
+.navbar .menu {
+  display: flex;
+  gap: 15px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.navbar a:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Ajustes de espaciado del contenido principal */
+.content {
+  margin-top: 80px; /* Deja espacio debajo de la barra superior */
+  margin-left: 270px; /* Deja espacio para la barra lateral */
+  padding: 20px;
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 768px) {
+  .navbar {
+    left: 0;
+    width: 100%; /* Barra superior ocupa todo el ancho */
+  }
+
+  .navbar h1 {
+    font-size: 1.2rem;
+  }
+
+  .navbar .menu {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .content {
+    margin-left: 0; /* El contenido usa todo el espacio disponible */
+  }
+}/* Aplica solo cuando se está en la vista "Modificar Curso" */
+#modificar {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  margin-left: 270px; /* Ajusta el espacio para la barra lateral */
+  width: calc(100% - 270px); /* Ajusta el ancho */
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Estilo para el título de la sección */
+#modificar h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Estilo para el select de cursos */
+#modificar #seleccionarCurso {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Estilos para el contenedor de detalles del curso */
+#modificar #detallesCurso {
+  display: none;
+  width: 100%;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos del formulario dentro de detalles del curso */
+#modificar #form-modificar {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilos para los campos de entrada dentro del formulario */
+#modificar #form-modificar input,
+#modificar #form-modificar textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Estilo para el botón de actualización */
+#modificar #form-modificar button {
+  width: 200px;
+  padding: 10px;
+  margin-top: 20px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#modificar #form-modificar button:hover {
+  background-color: #45a049;
+}
+/* Contenedor principal */
+
+/* Título de la sección */
+.seccion h2 {
+  font-size: 24px;
+  color: #333333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Estilo del selector */
+#courseSelect {
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  border: 1px solid #d0d7df;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f4f6f9, #ffffff);
+  font-size: 16px;
+  color: #333333;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+/* Hover y enfoque del selector */
+#courseSelect:hover {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+#courseSelect:focus {
+  border-color: #007bff;
+  background: #ffffff;
+  box-shadow: 0 0 12px rgba(0, 123, 255, 0.5);
+}
+
+/* Botón de envío */
+.seccion button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover del botón */
+.seccion button[type="submit"]:hover {
+  background: #0056b3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Formulario */
+#form-modificar {
+  margin-top: 20px;
+}
+
+#form-modificar label {
+  font-size: 14px;
+  color: #555555;
+  display: block;
+  margin-bottom: 5px;
+}
+
+#form-modificar input,
+#form-modificar textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #d0d7df;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333333;
+  background-color: #f9fafc;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  outline: none;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+/* Hover y enfoque de los campos del formulario */
+#form-modificar input:hover,
+#form-modificar textarea:hover {
+  border-color: #007bff;
+}
+
+#form-modificar input:focus,
+#form-modificar textarea:focus {
+  border-color: #007bff;
+  background: #ffffff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}

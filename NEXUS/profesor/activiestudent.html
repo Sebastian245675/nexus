@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividades del Estudiante</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            width: 80%;
+            height: 80%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+
+        .container.fullscreen {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .item {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fafafa;
+            transition: background-color 0.3s ease;
+        }
+
+        .item:hover {
+            background-color: #f1f1f1;
+        }
+
+        .item h4 {
+            margin: 0 0 10px;
+            color: #007bff;
+        }
+
+        .item p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .btn-detalle, .btn-upload {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-detalle:hover, .btn-upload:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-upload {
+            background-color: #28a745;
+        }
+
+        .btn-upload:hover {
+            background-color: #218838;
+        }
+
+        .activity-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .activity-container.fullscreen {
+            display: flex;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        .question h3 {
+            margin-bottom: 10px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .options label {
+            margin-bottom: 5px;
+        }
+
+        .btn-submit {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <h1>Actividades Pendientes</h1>
+        <div id="itemsList">
+            <!-- Los talleres y actividades se cargarán aquí -->
+        </div>
+        <div id="activityContainer" class="activity-container">
+            <h1>Actividad Simple</h1>
+            <div id="questionsList">
+                <!-- Las preguntas se cargarán aquí -->
+            </div>
+            <button id="submitActivity" class="btn-submit">Enviar Respuestas</button>
+        </div>
+    </div>
+    <script src="act.js" type="module"></script>
+</body>
+</html>
